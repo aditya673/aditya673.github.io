@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya Dwivedi</title>
-    <meta name="description" content="Personal website of Your Name">
+    <meta name="description" content="Aditya Dwivedi – PhD student at IIT Bombay">
     <link rel="icon" href="img/favicon.png" type="image/x-icon">
-    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
     <style>
-        /* ========== Reset & Basics ========== */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto', sans-serif; font-weight: 300; line-height: 1.6; color: #333; background: #fff; }
         a { color: #426BBA; text-decoration: none; }
@@ -17,7 +15,7 @@
         h1, h2, h3 { font-weight: 400; color: #000; }
         .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-        /* ========== Navigation ========== */
+        /* Navigation */
         .main-navigation {
             position: fixed; top: 0; left: 0; right: 0; background: #fff;
             display: flex; align-items: center; justify-content: space-between;
@@ -28,9 +26,10 @@
         .sub-navigation a { font-weight: 400; color: #555; transition: color 0.2s; }
         .sub-navigation a:hover { color: #426BBA; }
 
-        /* ========== Sections ========== */
+        /* Sections */
         section { padding: 80px 0; min-height: 100vh; border-bottom: 1px solid #eee; }
-        section:first-of-type { padding-top: 120px; }  /* space for fixed nav */
+        section:first-of-type { padding-top: 120px; }
+
         .hero { display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap; }
         .hero-left { flex: 0 0 220px; text-align: center; }
         .hero-left img { border-radius: 50%; max-width: 100%; }
@@ -56,13 +55,23 @@
 
         footer { text-align: center; padding: 2rem 0; font-size: 0.9rem; }
         footer a { color: #426BBA; }
+
+        /* Honours list styling */
+        .honours-list li { margin-bottom: 0.5rem; }
     </style>
+    <!-- MathJax for LaTeX -->
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 </head>
 <body>
 
     <!-- Navigation -->
     <nav class="main-navigation" id="navbar">
-        <a href="#"><img class="logo" src="img/logo.png" alt="Logo"></a>
+        <a href="#"><img class="logo" src="img/logo.png" alt="Aditya Dwivedi"></a>
         <div class="sub-navigation">
             <a href="#about">About</a>
             <a href="#research">Research</a>
@@ -76,46 +85,80 @@
         <div class="container">
             <div class="hero">
                 <div class="hero-left">
-                    <img src="img/avatar.jpg" alt="Your photo">
+                    <img src="img/avatar.jpg" alt="Aditya Dwivedi">
                     <h2 class="name">Aditya Dwivedi</h2>
                 </div>
                 <div class="hero-right">
-                    <p>I am a first year PhD student at <a href="https://www.math.iitb.ac.in/">IIT Bombay</a>.</p>
-                    <p>My research interests include Homological Algebra, K-theory and Category theory</p>
-                    <p>Previously, I was a BS + MSc. Dual degree student at IIT Bombay. I did my master's project under the supervision of Prof. H. Ananthnarayan.</p>
+                    <p>I am a first‑year PhD student in Mathematics at the <a href="https://www.math.iitb.ac.in/">Indian Institute of Technology Bombay</a>.</p>
+                    <p>My research interests lie in homological algebra, category theory, K‑theory, and transcendental number theory.</p>
+                    <p>I completed a BS‑MSc dual degree in Mathematics from IIT Bombay (CPI: 9.4/10, Mathematics: 9.8/10).</p>
                     <p>
-                        <a href="#">Curriculum Vitae</a> |
-                        <a href="#">Google Scholar</a> |
-                        <a href="#">Email</a>
+                        <a href="mailto:adityadwivedimath@gmail.com">Email</a> |
+                        <a href="#research">Research</a> |
+                        <a href="#teaching">Teaching</a>
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
+    
     <!-- Research Section -->
     <section id="research">
         <div class="container">
             <div class="header">
                 <h1 class="title">Research</h1>
             </div>
+
             <div class="content-case-study">
-                <h2 class="subtitile">Papers</h2>
-                <ol reversed style="line-height: 1.8em;">
-                    <li>
-                        <a href="#" target="_blank">Erd</a><br>
-                        (with Coauthor Name)<br>
-                        <em>Journal Name (Year)</em><br>
-                        Brief summary.
-                    </li>
-                    <!-- Add more papers -->
-                </ol>
+                <h2 class="subtitile">Interests</h2>
+                <p>Homological Algebra, Category Theory, K‑theory, Transcendental Number Theory.</p>
             </div>
+
             <div class="content-case-study">
-                <h2 class="subtitile">Invited talks</h2>
+                <h2 class="subtitile">Manuscript in preparation</h2>
                 <ul>
-                    <li>(Month Year) Event, Location</li>
-                    <!-- Add more talks -->
+                    <li>
+                        <em>Erdős problem for formal power series ring and Mahler's classification</em><br>
+                        Aditya Dwivedi, Digvijay Tiwari<br>
+                        Draft available upon request.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="content-case-study">
+                <h2 class="subtitile">Research Experience</h2>
+                <ul>
+                    <li>
+                        <strong>Hochschild Homology and its Taylor Approximation</strong> (Jan 2026 – present)<br>
+                        Working towards an independent proof of the HKR theorem using category theory and algebraic topology.<br>
+                        Advisor: Prof. Rekha Santhanam, IIT Bombay
+                    </li>
+                    <li>
+                        <strong>Master’s Thesis: Free resolutions and related invariants</strong> (Jul 2024 – May 2025)<br>
+                        Studied free resolutions, Betti numbers, and the work of Ananyan–Hochster on Stillman’s conjecture.<br>
+                        Advisor: Prof. Ananthnarayan Hariharan, IIT Bombay
+                    </li>
+                </ul>
+            </div>
+
+            <div class="content-case-study">
+                <h2 class="subtitile">Select Public Talks</h2>
+                <ul>
+                    <li>(Apr 2026) Deformation of \(F\)-injectivity and other \(F\)-singularities – IIT Bombay</li>
+                    <li>(Apr 2026) A proof of the HKR theorem for simplicial \(\mathsf{k}\)-vector spaces – IIT Bombay</li>
+                    <li>(Apr 2025) Localisation of Model categories – IIT Bombay</li>
+                    <li>(Apr 2025) Briançon‑Skoda theorem for F‑rational singularities – IIT Bombay</li>
+                    <li>(Feb 2025) A proof of the classic Erdős‑Ko‑Rado theorem – IIT Bombay</li>
+                    <li>(Jan 2025) A proof of the Hochschild‑Kostant‑Rosenberg theorem – IIT Bombay</li>
+                    <li>(Jan 2025) A survey of <em>Aṅkapāśa</em> in <em>Gaṇitakaumudī</em> – IIT Gandhinagar (Invited)</li>
+                    <li>(Nov 2024) Construction of <em>Matsyameru</em> in <em>Gaṇitakaumudī</em> – IIT Bombay</li>
+                    <li>(Nov 2024) A survey of Manifold Calculus – IIT Bombay</li>
+                    <li>(Oct 2024) A duality between Hilbert functions of Lex Ideals and quotients – IIT Bombay</li>
+                    <li>(May 2024) Classification of the representations of the Unitary group – IIT Bombay</li>
+                    <li>(Apr 2024) Asymptotics of Fourier transforms: some basic results – IIT Bombay</li>
+                    <li>(Oct 2023) The absolute Galois group of \(\mathbb{Q}\) – IIT Bombay</li>
+                    <li>(Aug 2023) A proof of the prime number theorem – IIT Bombay</li>
                 </ul>
             </div>
         </div>
@@ -128,37 +171,46 @@
                 <h1 class="title">Teaching</h1>
             </div>
             <div class="content-case-study">
-                <h2 class="subtitile">Courses</h2>
+                <h2 class="subtitile">Teaching Assistantships</h2>
                 <ul>
-                    <li><a href="#">Course 1</a> – Short description</li>
-                    <li><a href="#">Course 2</a> – Short description</li>
+                    <li>Spring 2025: MA 110 – Linear Algebra and Differential Equations</li>
+                    <li>Fall 2024: MA 105 – Calculus (Head TA)</li>
+                    <li>Spring 2024: MA 110 – Linear Algebra and Differential Equations (Head TA)</li>
+                    <li>Fall 2023: MA 105 – Calculus (Head TA)</li>
+                    <li>Spring 2023: MA 110 – Linear Algebra and Differential Equations</li>
+                    <li>Fall 2022: MA 105 – Calculus (Head TA)</li>
+                    <li>Spring 2022: MA 108 – Differential Equations</li>
+                    <li>Fall 2021: MA 105 – Calculus (Head TA)</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Personal / Hobbies Section -->
+    <!-- Personal Section -->
     <section id="personal">
         <div class="container">
             <div class="header">
-                <h1 class="title">Music &amp; Mountains</h1>
+                <h1 class="title">Personal</h1>
             </div>
-            <p>I enjoy playing the piano, climbing, and …</p>
-            <figure>
-                <img src="img/climbing.jpeg" alt="Mountain climbing" style="max-width:80%; height:auto;">
-                <figcaption>Traversing the Aiguilles d'Entrèves (3600m).</figcaption>
-            </figure>
-        </div>
+
+            <div class="content-case-study">
+                <h2 class="subtitile">Hindustani Classical Music</h2>
+                <p>I am a student of Hindustani classical music under Guru Vilandi Kulkarni.</p>
+                <p> I enjoy listening to music a lot and this is my recent favourite: <a href="https://www.youtube.com/watch?v=EFvX7R_CHKk" target="_blank">Raag Jog by Pt. Hariprasad Chaurasia ji</a> </p>
+            </div>
+
+           </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <a href="#about">Back to top</a>
+        <div class="container">
+            <a href="#about">Back to top</a>
+        </div>
     </footer>
 
-    <!-- Smooth scrolling script (no jQuery needed) -->
+    <!-- Smooth scrolling script -->
     <script>
-        // Smooth scroll to anchors
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -172,14 +224,11 @@
             });
         });
 
-        // Sticky nav shadow on scroll (optional enhancement)
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 10) {
-                nav.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-            } else {
-                nav.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
-            }
+            nav.style.boxShadow = window.scrollY > 10 
+                ? '0 2px 8px rgba(0,0,0,0.1)' 
+                : '0 2px 8px rgba(0,0,0,0.05)';
         });
     </script>
 </body>
