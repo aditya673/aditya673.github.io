@@ -32,7 +32,13 @@
 
         .hero { display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap; }
         .hero-left { flex: 0 0 220px; text-align: center; }
-        .hero-left img { border-radius: 50%; max-width: 100%; }
+        .hero-left img {
+          width: 100%;
+          aspect-ratio: 3 / 4;
+          object-fit: cover;
+          border-radius: 12px;   /* adjust to taste: 6px = subtle, 20px = soft */
+          display: block;
+        }
         .name { margin-top: 1rem; font-size: 1.8rem; font-weight: 500; color: #000; }
         .hero-right { flex: 1; min-width: 280px; }
         .hero-right p { margin-bottom: 1.2rem; font-size: 1.05rem; }
@@ -116,12 +122,17 @@
             </div>
 
             <div class="content-case-study">
-                <h2 class="subtitile">Manuscript in preparation</h2>
+                <h2 class="subtitile">Publications</h2>
                 <ul>
                     <li>
-                        <em>Erdős problem for formal power series ring and Mahler's classification</em><br>
+                        <em>On the excistence of uncountably many \(U_m\)-numbers in fibres of \(C^1\) maps </em><br>
                         Aditya Dwivedi, Digvijay Tiwari<br>
-                        Draft available upon request.
+                        (Submitted).
+                    </li>
+                    <li>
+                      <em> A cotriple proof of the Hochschild-Kostant-Rosenberg theorem</em><br>
+                            Aditya Dwivedi, Rekha Santhanam<br>
+                            Draft available upon request
                     </li>
                 </ul>
             </div>
@@ -130,7 +141,7 @@
                 <h2 class="subtitile">Research Experience</h2>
                 <ul>
                     <li>
-                        <strong>Hochschild Homology and its Taylor Approximation</strong> (Jan 2026 – present)<br>
+                        <strong>Hochschild Homology and its Taylor Approximation</strong> (Jan 2026 – May 2026)<br>
                         Working towards an independent proof of the HKR theorem using category theory and algebraic topology.<br>
                         Advisor: Prof. Rekha Santhanam, IIT Bombay
                     </li>
