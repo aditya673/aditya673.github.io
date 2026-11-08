@@ -20,6 +20,8 @@
             --surface-soft: #f8f9fb;
             --success: #27834a;
             --error: #c33d3d;
+            --ati: #8a3f7a;
+            --ati-bg: #fbf3fa;
         }
 
         body {
@@ -59,13 +61,9 @@
             border-radius: 10px;
             padding: 22px;
         }
-        .settings-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; }
         .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
-        .field-label {
-            color: #555;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .field-label { color: #555; font-size: 0.9rem; font-weight: 500; }
         select {
             width: 100%;
             min-height: 42px;
@@ -81,15 +79,33 @@
             outline-offset: 2px;
         }
         .checkbox-list { display: flex; flex-direction: column; gap: 8px; padding-top: 2px; }
-        .check-label {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            color: #444;
-            font-size: 0.92rem;
-            cursor: pointer;
-        }
+        .check-label { display: flex; align-items: center; gap: 9px; color: #444; font-size: 0.92rem; cursor: pointer; }
         .check-label input { width: 16px; height: 16px; accent-color: var(--blue); }
+
+        /* राग की जानकारी */
+        .raga-info { padding: 18px 22px; }
+        .raga-info-title { color: #555; font-size: 0.9rem; font-weight: 500; margin-bottom: 10px; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 54px;
+            padding: 5px 10px 4px;
+            border: 1px solid #dfe3e9;
+            border-radius: 8px;
+            background: #fff;
+            color: var(--blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .chip small { font-size: 0.62rem; font-weight: 400; color: #777; }
+        .chip.vikrit { color: #97652e; }
+        .chip.ati { color: var(--ati); border-color: #dcb8d5; background: var(--ati-bg); }
+        .chip.ati small { color: var(--ati); font-weight: 500; }
+        .raga-note { margin-top: 12px; color: #555; font-size: 0.9rem; font-weight: 400; line-height: 1.65; }
+        .raga-note:empty { display: none; }
 
         .volume-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
         .volume-field { display: flex; flex-direction: column; gap: 10px; }
@@ -122,8 +138,9 @@
         .score-line .correct-score { color: var(--success); font-size: 2.4rem; font-weight: 400; }
         .score-line .total-score { color: #555; font-size: 2rem; font-weight: 400; }
         .score-caption { color: var(--light-muted); font-size: 0.78rem; margin-top: 2px; }
+        .streak-line { color: #555; font-size: 0.85rem; font-weight: 400; margin-top: 8px; }
         .text-button { border: 0; background: transparent; color: var(--blue); cursor: pointer; font-size: 0.86rem; margin-top: 12px; }
-        .text-button:hover { text-decoration: underline; }
+        .text-button:hover:not(:disabled) { text-decoration: underline; }
 
         .game-panel { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
         .interaction-stage {
@@ -133,7 +150,9 @@
             padding: 25px 18px 20px;
             text-align: center;
         }
-        .action-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+        .action-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+        .tools-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 24px; }
+        .tools-row .text-button { margin-top: 0; }
         .primary-button, .secondary-button {
             display: inline-flex;
             justify-content: center;
@@ -163,7 +182,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 62px;
+            width: 66px;
             min-height: 62px;
             padding: 7px 3px;
             border: 1px solid #dfe3e9;
@@ -201,7 +220,7 @@
         .feedback.error { color: var(--error); }
 
         .swara-grids { display: flex; flex-direction: column; gap: 16px; }
-        .swara-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 9px; }
+        .swara-grid { display: grid; grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); gap: 9px; }
         .swara-grid.hidden { display: none; }
         .swara-btn {
             position: relative;
@@ -221,12 +240,35 @@
         .swara-btn:hover:not(:disabled) { border-color: var(--blue); background: #f7f9fd; transform: translateY(-1px); }
         .swara-btn.shuddha { color: var(--blue); }
         .swara-btn.vikrit { color: #97652e; }
+        .swara-btn.ati { color: var(--ati); background: var(--ati-bg); border-color: #dcb8d5; }
+        .swara-btn.ati:hover:not(:disabled) { border-color: var(--ati); background: #f7e9f4; }
         .swara-btn:disabled { background: #fafafa; border-color: #eee; opacity: 0.42; }
+        .swara-btn.out-of-raga { display: none; }
         .swara-symbol { font-size: 1.55rem; font-weight: 600; line-height: 1.35; }
         .swara-detail { color: #777; font-size: 0.72rem; font-weight: 400; }
+        .swara-btn.ati .swara-detail { color: var(--ati); font-weight: 500; }
+        .grid-label { color: #888; font-size: 0.78rem; font-weight: 500; margin-bottom: 6px; }
+
+        .page-header { position: relative; }
+        .lang-toggle {
+            position: absolute; top: 34px; right: 0;
+            padding: 6px 14px; border: 1px solid #d8dce3; border-radius: 999px;
+            background: #fff; color: #444; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-toggle:hover { border-color: var(--blue); color: var(--blue); }
+        .shruti-ref { padding: 0; }
+        .shruti-ref summary { cursor: pointer; padding: 16px 22px; color: #555; font-size: 0.95rem; font-weight: 500; }
+        .shruti-ref[open] summary { border-bottom: 1px solid var(--border); }
+        .ref-body { padding: 16px 22px 22px; }
+        .ref-intro { color: #666; font-size: 0.88rem; font-weight: 400; margin-bottom: 14px; line-height: 1.65; }
+        .table-wrap { overflow-x: auto; }
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-weight: 400; }
+        .ref-table th, .ref-table td { padding: 7px 10px; border-bottom: 1px solid #eee; text-align: left; white-space: nowrap; }
+        .ref-table thead th { color: #555; font-weight: 500; background: var(--surface-soft); }
+        .ref-table tbody th { color: #000; font-weight: 500; vertical-align: top; background: #fff; }
 
         @media (max-width: 760px) {
-            .settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .game-layout { grid-template-columns: 1fr; }
             .sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .score-panel { min-height: 160px; }
@@ -242,7 +284,7 @@
             .tanpura-panel, .score-panel { padding: 15px 10px; }
             .game-panel { padding: 14px; }
             .interaction-stage { padding: 19px 10px 15px; }
-            .swara-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .swara-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
             .primary-button, .secondary-button { width: 100%; }
             .action-row { gap: 9px; }
         }
@@ -251,45 +293,73 @@
 <body>
     <main class="container">
         <header class="page-header">
-            <a class="back-link" href="index.html"><span class="back-arrow" aria-hidden="true">←</span> पोर्टफोलियो पर वापस</a>
-            <h1 class="page-title">स्वर अभ्यास</h1>
-            <p class="page-subtitle">हिंदुस्तानी शास्त्रीय संगीत — श्रवण प्रशिक्षण</p>
+            <button id="langToggle" class="lang-toggle" type="button">English</button>
+            <a class="back-link" href="index.html"><span class="back-arrow" aria-hidden="true">←</span> <span data-i18n="backLink">पोर्टफोलियो पर वापस</span></a>
+            <h1 class="page-title" data-i18n="title">स्वर अभ्यास</h1>
+            <p class="page-subtitle" data-i18n="subtitle">हिंदुस्तानी शास्त्रीय संगीत — श्रवण प्रशिक्षण</p>
         </header>
 
         <div class="app-layout">
-            <section class="panel settings-grid" aria-label="अभ्यास की सेटिंग">
+            <section class="panel settings-grid">
                 <div class="field">
-                    <label class="field-label" for="scaleSelect">आधार स्वर</label>
+                    <label class="field-label" for="scaleSelect" data-i18n="lblScale">आधार स्वर (सा)</label>
                     <select id="scaleSelect"></select>
                 </div>
                 <div class="field">
-                    <label class="field-label" for="ragaSelect">राग</label>
+                    <label class="field-label" for="ragaSelect" data-i18n="lblRaga">राग</label>
                     <select id="ragaSelect"></select>
                 </div>
                 <div class="field">
-                    <label class="field-label" for="modeSelect">अभ्यास का प्रकार</label>
-                    <select id="modeSelect">
-                        <option value="1">एकल स्वर</option>
-                        <option value="3">तीन स्वरों का क्रम</option>
-                        <option value="4">चार स्वरों का क्रम</option>
+                    <label class="field-label" for="tuningSelect" data-i18n="lblTuning">स्वरस्थान</label>
+                    <select id="tuningSelect">
+                        <option value="raga" data-i18n="tuningRaga">राग के अनुसार श्रुति</option>
+                        <option value="standard" data-i18n="tuningStd">सामान्य (शुद्ध अंतराल)</option>
                     </select>
                 </div>
                 <div class="field">
-                    <span class="field-label">सप्तक</span>
+                    <label class="field-label" for="modeSelect" data-i18n="lblMode">अभ्यास का प्रकार</label>
+                    <select id="modeSelect">
+                        <option value="1" data-i18n="mode1">एकल स्वर</option>
+                        <option value="2" data-i18n="mode2">दो स्वरों का क्रम</option>
+                        <option value="3" data-i18n="mode3">तीन स्वरों का क्रम</option>
+                        <option value="4" data-i18n="mode4">चार स्वरों का क्रम</option>
+                        <option value="5" data-i18n="mode5">पाँच स्वरों का क्रम</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="stepSelect" data-i18n="lblStep">स्वरों के बीच की दूरी</label>
+                    <select id="stepSelect">
+                        <option value="near" data-i18n="stepNear">निकट स्वर (सरल)</option>
+                        <option value="mid" data-i18n="stepMid">मध्यम</option>
+                        <option value="any" data-i18n="stepAny">कोई भी स्वर (कठिन)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="tanpuraTuneSelect" data-i18n="lblTanpuraTune">तानपुरे का मिलान</label>
+                    <select id="tanpuraTuneSelect"></select>
+                </div>
+                <div class="field">
+                    <span class="field-label" data-i18n="lblOctave">सप्तक</span>
                     <div class="checkbox-list">
-                        <label class="check-label"><input type="checkbox" id="mandraCheck"> मंद्र सप्तक</label>
-                        <label class="check-label"><input type="checkbox" id="taarCheck"> तार सप्तक</label>
+                        <label class="check-label"><input type="checkbox" id="mandraCheck"> <span data-i18n="mandra">मंद्र सप्तक</span></label>
+                        <label class="check-label"><input type="checkbox" id="taarCheck"> <span data-i18n="taar">तार सप्तक</span></label>
                     </div>
                 </div>
             </section>
 
-            <section class="panel volume-grid" aria-label="ध्वनि का स्तर">
+            <section class="panel raga-info">
+                <h2 class="raga-info-title" id="ragaInfoTitle"></h2>
+                <div id="ragaChips" class="chips"></div>
+                <p id="ragaNote" class="raga-note"></p>
+            </section>
+
+            <section class="panel volume-grid">
                 <div class="volume-field">
-                    <label class="volume-heading" for="fluteVolSlider">बाँसुरी की ध्वनि</label>
+                    <label class="volume-heading" for="fluteVolSlider" data-i18n="volFlute">बाँसुरी की ध्वनि</label>
                     <input type="range" id="fluteVolSlider" min="0" max="1" step="0.05" value="0.7">
                 </div>
                 <div class="volume-field">
-                    <label class="volume-heading" for="tanpuraVolSlider">तानपुरे की ध्वनि</label>
+                    <label class="volume-heading" for="tanpuraVolSlider" data-i18n="volTanpura">तानपुरे की ध्वनि</label>
                     <input type="range" id="tanpuraVolSlider" min="0" max="1" step="0.05" value="0.5">
                 </div>
             </section>
@@ -297,55 +367,74 @@
             <div class="game-layout">
                 <aside class="sidebar">
                     <section class="panel tanpura-panel">
-                        <h2 class="panel-heading">तानपुरा</h2>
+                        <h2 class="panel-heading" data-i18n="tanpura">तानपुरा</h2>
                         <button id="tanpuraToggleBtn" class="tanpura-button" type="button" aria-pressed="false">
                             <span id="tanpuraStateText">बंद</span>
                         </button>
-                        <p class="panel-note">चार तारों की तानपुरा ध्वनि</p>
+                        <p class="panel-note" data-i18n="tanpuraNote">चार तारों की तानपुरा ध्वनि</p>
                     </section>
 
                     <section class="panel score-panel">
-                        <h2 class="score-title">आपकी शुद्धता</h2>
+                        <h2 class="score-title" data-i18n="scoreTitle">आपकी शुद्धता</h2>
                         <div class="score-line">
                             <span id="scoreVal" class="correct-score">०</span>
                             <span>/</span>
                             <span id="totalVal" class="total-score">०</span>
                         </div>
-                        <p class="score-caption">सही उत्तर / कुल प्रयास</p>
-                        <button id="resetScoreBtn" class="text-button" type="button">अंक रीसेट करें</button>
+                        <p class="score-caption" data-i18n="scoreCaption">सही उत्तर / कुल प्रयास</p>
+                        <p class="streak-line"><span data-i18n="streak">लगातार सही:</span> <span id="streakVal">०</span></p>
+                        <button id="resetScoreBtn" class="text-button" type="button" data-i18n="reset">अंक रीसेट करें</button>
                     </section>
                 </aside>
 
-                <section class="panel game-panel" aria-label="स्वर पहचान अभ्यास">
+                <section class="panel game-panel">
                     <div class="interaction-stage">
                         <div class="action-row">
                             <button id="playPromptBtn" class="primary-button" type="button">
                                 <span class="button-icon" aria-hidden="true">▶</span>
-                                <span>स्वर सुनें</span>
+                                <span data-i18n="btnPlay">स्वर सुनें</span>
                             </button>
                             <button id="repeatPromptBtn" class="secondary-button" type="button" disabled>
                                 <span class="button-icon" aria-hidden="true">↻</span>
-                                <span>पुनः सुनें</span>
+                                <span data-i18n="btnRepeat">पुनः सुनें</span>
                             </button>
+                        </div>
+                        <div class="tools-row">
+                            <button id="playSaBtn" class="text-button" type="button" data-i18n="btnSa">सा सुनें</button>
+                            <button id="playRagaBtn" class="text-button" type="button" data-i18n="btnRaga">राग के स्वर सुनें</button>
+                            <button id="revealBtn" class="text-button" type="button" data-i18n="btnReveal" disabled>उत्तर दिखाएँ</button>
                         </div>
 
                         <div class="guess-area">
-                            <h2 class="guess-title">आपका अनुमान</h2>
+                            <h2 class="guess-title" data-i18n="guessTitle">आपका अनुमान</h2>
                             <div id="guessVisualizer" class="guess-visualizer"></div>
                         </div>
 
-                        <div id="feedbackText" class="feedback" role="status" aria-live="polite">
-                            आरम्भ करने के लिए «स्वर सुनें» दबाएँ।
-                        </div>
+                        <div id="feedbackText" class="feedback" role="status" aria-live="polite"></div>
                     </div>
 
                     <div class="swara-grids">
-                        <div id="taarGrid" class="swara-grid hidden"></div>
-                        <div id="madhyaGrid" class="swara-grid"></div>
-                        <div id="mandraGrid" class="swara-grid hidden"></div>
+                        <div>
+                            <div id="taarLabel" class="grid-label" data-i18n="taar" hidden>तार सप्तक</div>
+                            <div id="taarGrid" class="swara-grid hidden"></div>
+                        </div>
+                        <div>
+                            <div id="madhyaLabel" class="grid-label" data-i18n="madhya" hidden>मध्य सप्तक</div>
+                            <div id="madhyaGrid" class="swara-grid"></div>
+                        </div>
+                        <div>
+                            <div id="mandraLabel" class="grid-label" data-i18n="mandra" hidden>मंद्र सप्तक</div>
+                            <div id="mandraGrid" class="swara-grid hidden"></div>
+                        </div>
                     </div>
+                    <p class="panel-note" data-i18n="panelNote"></p>
                 </section>
             </div>
+
+            <details class="panel shruti-ref">
+                <summary data-i18n="refTitle">श्रुति-स्थान की तालिका</summary>
+                <div id="shrutiRef" class="ref-body"></div>
+            </details>
         </div>
     </main>
 
@@ -368,42 +457,58 @@
             { name: 'बी', freq: 493.88 }
         ];
 
-        // बारह स्वर और उनके अनुपात।
+        // अति कोमल श्रुति-स्थान (पाइथागोरीय अनुपात), सामान्य कोमल स्वर से कुछ नीचे:
+        //   रे १६/१५ (११२ सेंट) → २५६/२४३ (९० सेंट)
+        //   ग ६/५ (३१६ सेंट)   → ३२/२७ (२९४ सेंट)
+        //   ध ८/५ (८१४ सेंट)   → १२८/८१ (७९२ सेंट)
+        //   नि ९/५ (१०१८ सेंट) → १६/९ (९९६ सेंट)
+        const ATI = { r: 256/243, g: 32/27, d: 128/81, n: 16/9 };
+
+        // बारह स्वर और उनके सामान्य (शुद्ध अंतराल) अनुपात। `ati` वह अति कोमल अनुपात है जो किसी राग में लग सकता है।
         const SWARAS = [
-            { id: 'S', symbol: 'सा', name: 'सा', detail: 'षड्ज', ratio: 1, isShuddha: true },
-            { id: 'r', symbol: 'रे', name: 'रे (कोमल)', detail: 'कोमल', ratio: 16/15, isShuddha: false },
-            { id: 'R', symbol: 'रे', name: 'रे (शुद्ध)', detail: 'शुद्ध', ratio: 9/8, isShuddha: true },
-            { id: 'g', symbol: 'ग', name: 'ग (कोमल)', detail: 'कोमल', ratio: 6/5, isShuddha: false },
-            { id: 'G', symbol: 'ग', name: 'ग (शुद्ध)', detail: 'शुद्ध', ratio: 5/4, isShuddha: true },
-            { id: 'm', symbol: 'म', name: 'म (शुद्ध)', detail: 'शुद्ध', ratio: 4/3, isShuddha: true },
-            { id: 'M', symbol: 'म', name: 'म (तीव्र)', detail: 'तीव्र', ratio: 45/32, isShuddha: false },
-            { id: 'P', symbol: 'प', name: 'प', detail: 'पंचम', ratio: 3/2, isShuddha: true },
-            { id: 'd', symbol: 'ध', name: 'ध (कोमल)', detail: 'कोमल', ratio: 8/5, isShuddha: false },
-            { id: 'D', symbol: 'ध', name: 'ध (शुद्ध)', detail: 'शुद्ध', ratio: 5/3, isShuddha: true },
-            { id: 'n', symbol: 'नि', name: 'नि (कोमल)', detail: 'कोमल', ratio: 9/5, isShuddha: false },
-            { id: 'N', symbol: 'नि', name: 'नि (शुद्ध)', detail: 'शुद्ध', ratio: 15/8, isShuddha: true }
+            { id: 'S', symbol: 'सा', name: 'सा',        detail: 'षड्ज',  ratio: 1,     isShuddha: true },
+            { id: 'r', symbol: 'रे', name: 'रे (कोमल)',  detail: 'कोमल',  ratio: 16/15, isShuddha: false, ati: ATI.r },
+            { id: 'R', symbol: 'रे', name: 'रे (शुद्ध)', detail: 'शुद्ध', ratio: 9/8,   isShuddha: true },
+            { id: 'g', symbol: 'ग',  name: 'ग (कोमल)',  detail: 'कोमल',  ratio: 6/5,   isShuddha: false, ati: ATI.g },
+            { id: 'G', symbol: 'ग',  name: 'ग (शुद्ध)', detail: 'शुद्ध', ratio: 5/4,   isShuddha: true },
+            { id: 'm', symbol: 'म',  name: 'म (शुद्ध)', detail: 'शुद्ध', ratio: 4/3,   isShuddha: true },
+            { id: 'M', symbol: 'म',  name: 'म (तीव्र)', detail: 'तीव्र', ratio: 45/32, isShuddha: false },
+            { id: 'P', symbol: 'प',  name: 'प',         detail: 'पंचम',  ratio: 3/2,   isShuddha: true },
+            { id: 'd', symbol: 'ध',  name: 'ध (कोमल)',  detail: 'कोमल',  ratio: 8/5,   isShuddha: false, ati: ATI.d },
+            { id: 'D', symbol: 'ध',  name: 'ध (शुद्ध)', detail: 'शुद्ध', ratio: 5/3,   isShuddha: true },
+            { id: 'n', symbol: 'नि', name: 'नि (कोमल)', detail: 'कोमल',  ratio: 9/5,   isShuddha: false, ati: ATI.n },
+            { id: 'N', symbol: 'नि', name: 'नि (शुद्ध)', detail: 'शुद्ध', ratio: 15/8,  isShuddha: true }
         ];
 
-        // पूर्वनिर्धारित राग।
+        /* राग: `notes` में प्रयुक्त स्वर, `tuning` में उस राग के विशिष्ट श्रुति-स्थान (स्वर → अनुपात),
+           `andolan` में वे स्वर जिन पर आंदोलन (धीमा कंपन) लगता है, और `note` में अतिरिक्त टिप्पणी।
+           जिन रागों में `tuning` नहीं है, उनमें सामान्य अनुपात ही लगते हैं।
+           श्रुति-स्थान परंपरा और घराने के अनुसार थोड़े बदलते हैं; किसी राग को बदलना हो तो केवल उसकी `tuning` पंक्ति बदलें। */
         const RAGAS = {
             'abhogi':            { name: 'अभोगी', notes: ['S','R','g','m','D'] },
-            'ahir_bhairav':      { name: 'अहीर भैरव', notes: ['S','r','G','m','P','D','n'] },
+            'ahir_bhairav':      { name: 'अहीर भैरव', notes: ['S','r','G','m','P','D','n'], tuning: { r: ATI.r } },
             'alhaiya_bilawal':   { name: 'अल्हैया बिलावल', notes: ['S','R','G','m','P','D','n','N'] },
             'asavari':           { name: 'आसावरी', notes: ['S','R','g','m','P','d','n'] },
             'bageshri':          { name: 'बागेश्री', notes: ['S','R','g','m','P','D','n'] },
             'bahar':             { name: 'बहार', notes: ['S','R','g','m','P','D','n','N'] },
             'basant':            { name: 'बसंत', notes: ['S','r','G','m','M','P','d','N'] },
-            'bhairav':           { name: 'भैरव', notes: ['S','r','G','m','P','d','N'] },
+            'bhairav':           { name: 'भैरव', notes: ['S','r','G','m','P','d','N'], tuning: { r: ATI.r, d: ATI.d } },
             'bhairavi':          { name: 'भैरवी', notes: ['S','r','g','m','P','d','n'] },
             'bhimpalasi':        { name: 'भीमपलासी', notes: ['S','R','g','m','P','D','n'] },
-            'bhoopali':          { name: 'भूपाली (भूप)', notes: ['S','R','G','P','D'], shrutiOverrides: { 'R': 10/9, 'D': 5/3 } },
+            'bhoopali':          { name: 'भूपाली (भूप)', notes: ['S','R','G','P','D'], tuning: { R: 10/9, D: 5/3 },
+                                   note: 'रे को १०/९ पर रखा गया है, जिससे ध (५/३) के साथ शुद्ध पंचम-संवाद बनता है।',
+                                   noteEn: 'Re is set at 10/9, which makes a pure fifth with Dha (5/3).' },
             'bihag':             { name: 'बिहाग', notes: ['S','R','G','m','M','P','D','N'] },
             'bilawal':           { name: 'बिलावल', notes: ['S','R','G','m','P','D','N'] },
             'brindavani_sarang': { name: 'वृन्दावनी सारंग', notes: ['S','R','m','P','n','N'] },
             'charukeshi':        { name: 'चारुकेशी', notes: ['S','R','G','m','P','d','n'] },
-            'darbari':            { name: 'दरबारी कान्हड़ा', notes: ['S','R','g','m','P','d','n'], shrutiOverrides: { 'g': 32/27, 'd': 128/81 } },
+            'darbari':           { name: 'दरबारी कान्हड़ा', notes: ['S','R','g','m','P','d','n'], tuning: { g: ATI.g, d: ATI.d }, andolan: ['g','d'],
+                                   note: 'ग और ध पर आंदोलन (धीमा कंपन) भी लगाया गया है, जो इस राग की पहचान है।',
+                                   noteEn: 'Ga and Dha also carry andolan (a slow oscillation), a hallmark of this raga.' },
             'desh':              { name: 'देश', notes: ['S','R','G','m','P','D','n','N'] },
-            'durga':             { name: 'दुर्गा', notes: ['S','R','m','P','D'], shrutiOverrides: { 'D': 27/16 } },
+            'durga':             { name: 'दुर्गा', notes: ['S','R','m','P','D'], tuning: { D: 27/16 },
+                                   note: 'ध को २७/१६ पर रखा गया है, जिससे रे (९/८) के साथ शुद्ध पंचम-संवाद बनता है।',
+                                   noteEn: 'Dha is set at 27/16, which makes a pure fifth with Re (9/8).' },
             'gorakh_kalyan':     { name: 'गोरख कल्याण', notes: ['S','R','m','D','n'] },
             'hameer':            { name: 'हमीर', notes: ['S','R','G','m','M','P','D','N'] },
             'hindol':            { name: 'हिंडोल', notes: ['S','G','M','D','N'] },
@@ -413,18 +518,18 @@
             'kedar':             { name: 'केदार', notes: ['S','R','G','m','M','P','D','N'] },
             'khamaj':            { name: 'खमाज', notes: ['S','R','G','m','P','D','n','N'] },
             'madhuvanti':        { name: 'मधुवंती', notes: ['S','R','g','M','P','D','N'] },
-            'malkauns':          { name: 'मालकौंस', notes: ['S','g','m','d','n'] },
-            'marwa':             { name: 'मारवा', notes: ['S','r','G','M','D','N'] },
+            'malkauns':          { name: 'मालकौंस', notes: ['S','g','m','d','n'], tuning: { g: ATI.g, d: ATI.d } },
+            'marwa':             { name: 'मारवा', notes: ['S','r','G','M','D','N'], tuning: { r: ATI.r } },
             'megh':              { name: 'मेघ', notes: ['S','R','m','P','n'] },
-            'multani':           { name: 'मुल्तानी', notes: ['S','r','g','M','P','d','N'] },
+            'multani':           { name: 'मुल्तानी', notes: ['S','r','g','M','P','d','N'], tuning: { r: ATI.r, g: ATI.g, d: ATI.d } },
             'patdeep':           { name: 'पटदीप', notes: ['S','R','g','m','P','D','N'] },
             'purvi':             { name: 'पूर्वी', notes: ['S','r','G','m','M','P','d','N'] },
             'shankara':          { name: 'शंकरा', notes: ['S','R','G','P','D','N'] },
-            'shree':             { name: 'श्री', notes: ['S','r','G','M','P','d','N'] },
+            'shree':             { name: 'श्री', notes: ['S','r','G','M','P','d','N'], tuning: { r: ATI.r } },
             'shuddha_kalyan':    { name: 'शुद्ध कल्याण', notes: ['S','R','G','M','P','D','N'] },
             'sohini':            { name: 'सोहनी', notes: ['S','r','G','M','D','N'] },
             'tilak_kamod':       { name: 'तिलक कामोद', notes: ['S','R','G','m','P','D','N'] },
-            'todi':              { name: 'तोड़ी', notes: ['S','r','g','M','P','d','N'] },
+            'todi':              { name: 'तोड़ी', notes: ['S','r','g','M','P','d','N'], tuning: { r: ATI.r, g: ATI.g, d: ATI.d } },
             'yaman':             { name: 'यमन', notes: ['S','R','G','M','P','D','N'] },
             'all':               { name: 'सभी बारह स्वर', notes: ['S','r','R','g','G','m','M','P','d','D','n','N'] }
         };
@@ -435,6 +540,123 @@
             { id: 'mandra', mult: 0.5, name: 'मंद्र', dotPosition: 'bottom' }
         ];
 
+        // तानपुरे की पहली तार (मंद्र सप्तक में): प, म, शुद्ध नि या कोमल नि।
+        const TANPURA_TUNINGS = {
+            auto: { name: 'राग के अनुसार', en: 'According to the raga', ratio: null },
+            P:    { name: 'सा – प (पंचम)', en: 'Sa – Pa (Pancham)', ratio: 0.75 },
+            m:    { name: 'सा – म (मध्यम)', en: 'Sa – Ma (Madhyam)', ratio: 2 / 3 },
+            N:    { name: 'सा – शुद्ध नि', en: 'Sa – shuddha Ni', ratio: 15 / 16 },
+            n:    { name: 'सा – कोमल नि', en: 'Sa – komal Ni', ratio: 0.9 }
+        };
+        const STEP_LIMITS = { near: 2, mid: 4, any: Infinity };
+        const STORAGE_KEY = 'swarAbhyasSettings.v2';
+
+        /* भाषा / Language */
+        const I18N = {
+            hi: {
+                pageTitle: 'स्वर अभ्यास — श्रवण प्रशिक्षण', backLink: 'पोर्टफोलियो पर वापस', title: 'स्वर अभ्यास',
+                subtitle: 'हिंदुस्तानी शास्त्रीय संगीत — श्रवण प्रशिक्षण',
+                lblScale: 'आधार स्वर (सा)', lblRaga: 'राग', lblTuning: 'स्वरस्थान',
+                tuningRaga: 'राग के अनुसार श्रुति', tuningStd: 'सामान्य (शुद्ध अंतराल)',
+                lblMode: 'अभ्यास का प्रकार', mode1: 'एकल स्वर', mode2: 'दो स्वरों का क्रम', mode3: 'तीन स्वरों का क्रम',
+                mode4: 'चार स्वरों का क्रम', mode5: 'पाँच स्वरों का क्रम',
+                lblStep: 'स्वरों के बीच की दूरी', stepNear: 'निकट स्वर (सरल)', stepMid: 'मध्यम', stepAny: 'कोई भी स्वर (कठिन)',
+                lblTanpuraTune: 'तानपुरे का मिलान', lblOctave: 'सप्तक',
+                mandra: 'मंद्र सप्तक', madhya: 'मध्य सप्तक', taar: 'तार सप्तक',
+                volFlute: 'बाँसुरी की ध्वनि', volTanpura: 'तानपुरे की ध्वनि',
+                tanpura: 'तानपुरा', tanpuraNote: 'चार तारों की तानपुरा ध्वनि', on: 'चालू', off: 'बंद',
+                scoreTitle: 'आपकी शुद्धता', scoreCaption: 'सही उत्तर / कुल प्रयास', streak: 'लगातार सही:', reset: 'अंक रीसेट करें',
+                btnPlay: 'स्वर सुनें', btnRepeat: 'पुनः सुनें', btnSa: 'सा सुनें', btnRaga: 'राग के स्वर सुनें', btnReveal: 'उत्तर दिखाएँ',
+                guessTitle: 'आपका अनुमान',
+                panelNote: 'कोई स्वर सुनाए बिना बटन दबाने पर वह स्वर बजेगा, इसलिए आप स्वरों को परख भी सकते हैं। शॉर्टकट: N — नया स्वर, R — पुनः सुनें।',
+                msgStart: 'आरम्भ करने के लिए «स्वर सुनें» दबाएँ।', msgListening: 'ध्यान से सुनिए…', msgRepeating: 'स्वरक्रम दोहराया जा रहा है…',
+                msgCorrect: 'सही! बहुत अच्छा!', msgWrong: 'गलत। सही स्वरक्रम था: {seq}', msgReveal: 'उत्तर: {seq}',
+                msgRagaChanged: 'राग बदल गया है। नया स्वर सुनने के लिए «स्वर सुनें» दबाएँ।',
+                msgTuningRaga: 'अब राग के अनुसार श्रुति-स्थान लग रहे हैं।', msgTuningStd: 'अब सामान्य (शुद्ध अंतराल) स्वरस्थान लग रहे हैं।',
+                msgModeChanged: 'अभ्यास का प्रकार बदल गया है। «स्वर सुनें» दबाएँ।', msgStepChanged: 'कठिनाई बदल गई है। «स्वर सुनें» दबाएँ।',
+                msgScoreReset: 'अंक रीसेट कर दिए गए हैं।', msgScalePlaying: 'राग के स्वर सुनिए: आरोह और अवरोह…',
+                msgScaleDone: 'अब «स्वर सुनें» दबाकर अभ्यास कीजिए।',
+                ariaNote: '{oct} सप्तक, {swara}', ragaInfoTitle: 'राग {name} के स्वर',
+                atiItem: '{sym} ({cents}, सामान्य कोमल {std})', atiNote: 'इस राग में अति कोमल श्रुति लगती है: {list}।',
+                stdNote: '«सामान्य» स्वरस्थान चुना है, इसलिए इस राग के विशिष्ट श्रुति-स्थान अभी नहीं लग रहे।',
+                cents: 'सेंट', hz: 'हर्ट्ज़', langBtn: 'English',
+                refTitle: 'श्रुति-स्थान की तालिका (गुरु से मिलान के लिए)',
+                refIntro: 'ये मान सामान्य परंपरा पर आधारित हैं और घराने के अनुसार बदल सकते हैं। हर खाने में «अनुपात · सेंट (सा से)» दिया है। अपने गुरु से मिलान करके स्रोत-कोड की RAGAS तालिका में संबंधित राग की tuning पंक्ति बदली जा सकती है।',
+                refRaga: 'राग', refSwara: 'स्वर', refUsed: 'इस राग में', refStd: 'सामान्य', refDiff: 'अंतर (सेंट)'
+            },
+            en: {
+                pageTitle: 'Swara Practice — Ear Training', backLink: 'Back to portfolio', title: 'Swara Practice',
+                subtitle: 'Hindustani classical music — ear training',
+                lblScale: 'Base pitch (Sa)', lblRaga: 'Raga', lblTuning: 'Tuning',
+                tuningRaga: 'Raga-specific shruti', tuningStd: 'Standard (just intervals)',
+                lblMode: 'Exercise type', mode1: 'Single swara', mode2: 'Sequence of two swaras', mode3: 'Sequence of three swaras',
+                mode4: 'Sequence of four swaras', mode5: 'Sequence of five swaras',
+                lblStep: 'Distance between swaras', stepNear: 'Neighbouring swaras (easier)', stepMid: 'Medium', stepAny: 'Any swara (harder)',
+                lblTanpuraTune: 'Tanpura tuning', lblOctave: 'Octaves',
+                mandra: 'Mandra (lower) octave', madhya: 'Madhya (middle) octave', taar: 'Taar (upper) octave',
+                volFlute: 'Flute volume', volTanpura: 'Tanpura volume',
+                tanpura: 'Tanpura', tanpuraNote: 'Four-string tanpura drone', on: 'On', off: 'Off',
+                scoreTitle: 'Your accuracy', scoreCaption: 'correct / total attempts', streak: 'Current streak:', reset: 'Reset score',
+                btnPlay: 'Play swaras', btnRepeat: 'Repeat', btnSa: 'Play Sa', btnRaga: 'Hear the raga’s swaras', btnReveal: 'Show answer',
+                guessTitle: 'Your guess',
+                panelNote: 'Pressing a button when nothing is being asked simply plays that swara, so you can also explore the notes. Shortcuts: N — new prompt, R — repeat.',
+                msgStart: 'Press “Play swaras” to begin.', msgListening: 'Listen carefully…', msgRepeating: 'Repeating the sequence…',
+                msgCorrect: 'Correct! Well done!', msgWrong: 'Not quite. The correct sequence was: {seq}', msgReveal: 'Answer: {seq}',
+                msgRagaChanged: 'Raga changed. Press “Play swaras” for a new prompt.',
+                msgTuningRaga: 'Now using the raga’s own shruti positions.', msgTuningStd: 'Now using standard just-interval pitches.',
+                msgModeChanged: 'Exercise type changed. Press “Play swaras”.', msgStepChanged: 'Difficulty changed. Press “Play swaras”.',
+                msgScoreReset: 'Score reset.', msgScalePlaying: 'Listen to the raga’s swaras: ascending, then descending…',
+                msgScaleDone: 'Now press “Play swaras” to practise.',
+                ariaNote: '{oct} octave, {swara}', ragaInfoTitle: 'Swaras of Raga {name}',
+                atiItem: '{sym} ({cents}; usual komal is {std})', atiNote: 'This raga uses ati-komal shruti: {list}.',
+                stdNote: 'Standard tuning is selected, so this raga’s own shruti positions are not being applied.',
+                cents: 'cents', hz: 'Hz', langBtn: 'हिन्दी',
+                refTitle: 'Shruti reference table (for checking with your teacher)',
+                refIntro: 'These values follow common practice and vary by gharana. Each cell shows “ratio · cents above Sa”. After checking with your teacher, edit the tuning line of the relevant raga in the RAGAS table in the page source.',
+                refRaga: 'Raga', refSwara: 'Swara', refUsed: 'In this raga', refStd: 'Standard', refDiff: 'Difference (cents)'
+            }
+        };
+        let lang = 'hi';
+        let lastFeedback = { key: 'msgStart', type: '', params: null };
+
+        function t(key, params) {
+            let text = (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.hi[key] !== undefined ? I18N.hi[key] : key);
+            if (params) Object.keys(params).forEach(name => { text = text.split(`{${name}}`).join(params[name]); });
+            return text;
+        }
+
+        const ROMAN = { S: 'Sa', r: 'Re', R: 'Re', g: 'Ga', G: 'Ga', m: 'Ma', M: 'Ma', P: 'Pa', d: 'Dha', D: 'Dha', n: 'Ni', N: 'Ni' };
+        const DETAIL_EN = { 'षड्ज': 'Shadja', 'कोमल': 'komal', 'शुद्ध': 'shuddha', 'तीव्र': 'tivra', 'पंचम': 'Pancham', 'अति कोमल': 'ati-komal' };
+        const SCALE_EN = ['C', 'C♯ / D♭', 'D', 'D♯ / E♭', 'E', 'F', 'F♯ / G♭', 'G', 'G♯ / A♭', 'A', 'A♯ / B♭', 'B'];
+        const OCTAVE_WORD = {
+            hi: { taar: 'तार', madhya: 'मध्य', mandra: 'मंद्र' },
+            en: { taar: 'Taar', madhya: 'Madhya', mandra: 'Mandra' }
+        };
+        const RAGA_EN = {
+            abhogi: 'Abhogi', ahir_bhairav: 'Ahir Bhairav', alhaiya_bilawal: 'Alhaiya Bilawal', asavari: 'Asavari', bageshri: 'Bageshri',
+            bahar: 'Bahar', basant: 'Basant', bhairav: 'Bhairav', bhairavi: 'Bhairavi', bhimpalasi: 'Bhimpalasi', bhoopali: 'Bhoopali (Bhoop)',
+            bihag: 'Bihag', bilawal: 'Bilawal', brindavani_sarang: 'Brindavani Sarang', charukeshi: 'Charukeshi', darbari: 'Darbari Kanada',
+            desh: 'Desh', durga: 'Durga', gorakh_kalyan: 'Gorakh Kalyan', hameer: 'Hameer', hindol: 'Hindol', jaunpuri: 'Jaunpuri', jog: 'Jog',
+            kafi: 'Kafi', kedar: 'Kedar', khamaj: 'Khamaj', madhuvanti: 'Madhuvanti', malkauns: 'Malkauns', marwa: 'Marwa', megh: 'Megh',
+            multani: 'Multani', patdeep: 'Patdeep', purvi: 'Purvi', shankara: 'Shankara', shree: 'Shree', shuddha_kalyan: 'Shuddha Kalyan',
+            sohini: 'Sohini', tilak_kamod: 'Tilak Kamod', todi: 'Todi', yaman: 'Yaman', all: 'All twelve swaras'
+        };
+
+        function num(value) { return lang === 'hi' ? toDevanagariDigits(value) : String(value); }
+        function sym(swara) { return lang === 'hi' ? swara.symbol : ROMAN[swara.id]; }
+        function ragaName(key) { return lang === 'hi' ? RAGAS[key].name : (RAGA_EN[key] || key); }
+        function octaveWord(id) { return OCTAVE_WORD[lang][id]; }
+        function detailText(hiText) { return lang === 'hi' ? hiText : (DETAIL_EN[hiText] || hiText); }
+
+        // भिन्न के रूप में अनुपात (जैसे 256/243)।
+        function ratioText(ratio) {
+            for (let den = 1; den <= 128; den++) {
+                const numerator = Math.round(ratio * den);
+                if (Math.abs(numerator / den - ratio) < 1e-9) return `${num(numerator)}/${num(den)}`;
+            }
+            return ratio.toFixed(4);
+        }
+
         const DEVANAGARI_DIGITS = '०१२३४५६७८९';
         function toDevanagariDigits(value) {
             return String(value).replace(/[0-9]/g, digit => DEVANAGARI_DIGITS[Number(digit)]);
@@ -444,41 +666,101 @@
         let audioCtx = null;
         let fluteMasterGain = null;
         let tanpuraMasterGain = null;
+        let fluteWave = null;
+        let fluteBus = null;
+        let breathBuffer = null;
         let baseFreq = SCALES[1].freq;
 
-        let state = {
+        const state = {
             raga: 'yaman',
             modeLength: 1,
+            difficulty: 'near',
+            tuning: 'raga',
+            tanpuraTune: 'auto',
             isPlaying: false,
             tanpuraOn: false,
             tanpuraInterval: null,
             score: 0,
             total: 0,
+            streak: 0,
             promptSequence: [],
             guessSequence: []
         };
 
+        const $ = id => document.getElementById(id);
         const els = {
-            scaleSelect: document.getElementById('scaleSelect'),
-            ragaSelect: document.getElementById('ragaSelect'),
-            modeSelect: document.getElementById('modeSelect'),
-            mandraCheck: document.getElementById('mandraCheck'),
-            taarCheck: document.getElementById('taarCheck'),
-            tanpuraToggleBtn: document.getElementById('tanpuraToggleBtn'),
-            tanpuraStateText: document.getElementById('tanpuraStateText'),
-            playPromptBtn: document.getElementById('playPromptBtn'),
-            repeatPromptBtn: document.getElementById('repeatPromptBtn'),
-            guessVisualizer: document.getElementById('guessVisualizer'),
-            feedbackText: document.getElementById('feedbackText'),
-            taarGrid: document.getElementById('taarGrid'),
-            madhyaGrid: document.getElementById('madhyaGrid'),
-            mandraGrid: document.getElementById('mandraGrid'),
-            scoreVal: document.getElementById('scoreVal'),
-            totalVal: document.getElementById('totalVal'),
-            resetBtn: document.getElementById('resetScoreBtn'),
-            fluteVolSlider: document.getElementById('fluteVolSlider'),
-            tanpuraVolSlider: document.getElementById('tanpuraVolSlider')
+            scaleSelect: $('scaleSelect'),
+            ragaSelect: $('ragaSelect'),
+            tuningSelect: $('tuningSelect'),
+            modeSelect: $('modeSelect'),
+            stepSelect: $('stepSelect'),
+            tanpuraTuneSelect: $('tanpuraTuneSelect'),
+            mandraCheck: $('mandraCheck'),
+            taarCheck: $('taarCheck'),
+            ragaChips: $('ragaChips'),
+            ragaNote: $('ragaNote'),
+            ragaInfoTitle: $('ragaInfoTitle'),
+            tanpuraToggleBtn: $('tanpuraToggleBtn'),
+            tanpuraStateText: $('tanpuraStateText'),
+            playPromptBtn: $('playPromptBtn'),
+            repeatPromptBtn: $('repeatPromptBtn'),
+            playSaBtn: $('playSaBtn'),
+            playRagaBtn: $('playRagaBtn'),
+            revealBtn: $('revealBtn'),
+            guessVisualizer: $('guessVisualizer'),
+            feedbackText: $('feedbackText'),
+            taarGrid: $('taarGrid'),
+            madhyaGrid: $('madhyaGrid'),
+            mandraGrid: $('mandraGrid'),
+            taarLabel: $('taarLabel'),
+            madhyaLabel: $('madhyaLabel'),
+            mandraLabel: $('mandraLabel'),
+            scoreVal: $('scoreVal'),
+            totalVal: $('totalVal'),
+            streakVal: $('streakVal'),
+            resetBtn: $('resetScoreBtn'),
+            fluteVolSlider: $('fluteVolSlider'),
+            tanpuraVolSlider: $('tanpuraVolSlider'),
+            langToggle: $('langToggle'),
+            shrutiRef: $('shrutiRef')
         };
+
+        /* श्रुति-स्थान की गणना */
+
+        // वर्तमान राग और स्वरस्थान-सेटिंग के अनुसार स्वर का वास्तविक अनुपात।
+        function effectiveRatio(swara, ragaKey = state.raga) {
+            const raga = RAGAS[ragaKey];
+            if (state.tuning === 'raga' && raga.tuning && raga.tuning[swara.id] !== undefined) {
+                return raga.tuning[swara.id];
+            }
+            return swara.ratio;
+        }
+
+        function isAti(swara, ratio) {
+            return swara.ati !== undefined && Math.abs(ratio - swara.ati) < 1e-9;
+        }
+
+        function swaraDetail(swara) {
+            return detailText(isAti(swara, effectiveRatio(swara)) ? 'अति कोमल' : swara.detail);
+        }
+
+        function swaraName(swara) {
+            if (swara.id === 'S' || swara.id === 'P') return sym(swara);
+            return `${sym(swara)} (${swaraDetail(swara)})`;
+        }
+
+        function centsOf(ratio) {
+            return 1200 * Math.log2(ratio);
+        }
+
+        function centsText(ratio) {
+            return `${num(Math.round(centsOf(ratio)))} ${t('cents')}`;
+        }
+
+        function hasAndolan(swara) {
+            const raga = RAGAS[state.raga];
+            return state.tuning === 'raga' && Array.isArray(raga.andolan) && raga.andolan.includes(swara.id);
+        }
 
         /* ध्वनि निर्माण */
         function initAudio() {
@@ -492,66 +774,182 @@
                 tanpuraMasterGain = audioCtx.createGain();
                 tanpuraMasterGain.gain.value = els.tanpuraVolSlider.value;
                 tanpuraMasterGain.connect(audioCtx.destination);
+
+                // बाँसुरी जैसी कोमल तरंग: मूल स्वर प्रबल, ऊँचे हार्मोनिक हल्के।
+                fluteWave = audioCtx.createPeriodicWave(
+                    new Float32Array([0, 0, 0, 0, 0, 0]),
+                    new Float32Array([0, 1, 0.22, 0.1, 0.04, 0.02])
+                );
+
+                // फूँक की हल्की सरसराहट के लिए दोहराया जाने वाला शोर।
+                breathBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 2, audioCtx.sampleRate);
+                const breathData = breathBuffer.getChannelData(0);
+                for (let i = 0; i < breathData.length; i++) breathData[i] = Math.random() * 2 - 1;
+
+                // बाँसुरी → (सीधी ध्वनि + हल्की गूँज) → मास्टर वॉल्यूम।
+                fluteBus = audioCtx.createGain();
+                const dry = audioCtx.createGain();
+                const wet = audioCtx.createGain();
+                const reverb = audioCtx.createConvolver();
+                reverb.buffer = buildImpulse(1.5, 2.8);
+                dry.gain.value = 0.85;
+                wet.gain.value = 0.22;
+                fluteBus.connect(dry);
+                dry.connect(fluteMasterGain);
+                fluteBus.connect(reverb);
+                reverb.connect(wet);
+                wet.connect(fluteMasterGain);
             }
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function playFluteNote(swaraObj, saptakMult, timeOffset, duration = 0.8) {
-            const currentRaga = RAGAS[state.raga];
-            const ratio = (currentRaga.shrutiOverrides && currentRaga.shrutiOverrides[swaraObj.id])
-                ? currentRaga.shrutiOverrides[swaraObj.id]
-                : swaraObj.ratio;
-            const freq = baseFreq * ratio * saptakMult;
-            const startTime = audioCtx.currentTime + timeOffset;
+        // कक्ष जैसी हल्की गूँज के लिए कृत्रिम आवेग-प्रतिक्रिया।
+        function buildImpulse(seconds, decay) {
+            const length = Math.floor(audioCtx.sampleRate * seconds);
+            const impulse = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
+            for (let channel = 0; channel < 2; channel++) {
+                const data = impulse.getChannelData(channel);
+                for (let i = 0; i < length; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+                }
+            }
+            return impulse;
+        }
 
+        function playFluteNote(swara, saptakMult, timeOffset, duration = 0.8) {
+            const freq = baseFreq * effectiveRatio(swara) * saptakMult;
+            const t0 = audioCtx.currentTime + timeOffset;
+            const end = t0 + duration;
+            const andolan = hasAndolan(swara);
+
+            // स्वर: आरम्भ में पल भर का हल्का उठान, फिर स्थिर।
             const osc = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            const lfo = audioCtx.createOscillator();
-            const lfoGain = audioCtx.createGain();
+            osc.setPeriodicWave(fluteWave);
+            osc.frequency.setValueAtTime(freq * 0.985, t0);
+            osc.frequency.exponentialRampToValueAtTime(freq, t0 + 0.07);
 
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, startTime);
-            lfo.type = 'sine';
-            lfo.frequency.setValueAtTime(5.5, startTime);
-            lfoGain.gain.setValueAtTime(freq * 0.012, startTime);
-            lfo.connect(lfoGain);
-            lfoGain.connect(osc.frequency);
+            // कंपन (सेंट में): देर से शुरू होने वाला हल्का; आंदोलन वाले स्वर पर धीमा और चौड़ा।
+            const vibrato = audioCtx.createOscillator();
+            const vibratoDepth = audioCtx.createGain();
+            vibrato.frequency.setValueAtTime(andolan ? 3 : 5.2, t0);
+            vibratoDepth.gain.setValueAtTime(0, t0);
+            vibratoDepth.gain.setValueAtTime(0, t0 + 0.15);
+            vibratoDepth.gain.linearRampToValueAtTime(andolan ? 22 : 7, t0 + 0.5);
+            vibrato.connect(vibratoDepth);
+            vibratoDepth.connect(osc.detune);
 
-            gainNode.gain.setValueAtTime(0, startTime);
-            gainNode.gain.linearRampToValueAtTime(0.7, startTime + 0.1);
-            gainNode.gain.linearRampToValueAtTime(0.5, startTime + 0.3);
-            gainNode.gain.setValueAtTime(0.5, startTime + duration - 0.2);
-            gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+            // ऊँचे हार्मोनिक आरम्भ में थोड़े खुले, फिर नर्म।
+            const tone = audioCtx.createBiquadFilter();
+            tone.type = 'lowpass';
+            tone.Q.setValueAtTime(0.6, t0);
+            tone.frequency.setValueAtTime(Math.min(freq * 7, 12000), t0);
+            tone.frequency.exponentialRampToValueAtTime(Math.min(freq * 4, 9000), t0 + 0.25);
 
-            osc.connect(gainNode);
-            gainNode.connect(fluteMasterGain);
-            osc.start(startTime);
-            lfo.start(startTime);
-            osc.stop(startTime + duration);
-            lfo.stop(startTime + duration);
+            // साँस के दबाव जैसा आयाम।
+            const attack = 0.07;
+            const release = Math.min(0.14, duration / 3);
+            const amp = audioCtx.createGain();
+            amp.gain.setValueAtTime(0, t0);
+            amp.gain.linearRampToValueAtTime(0.75, t0 + attack);
+            amp.gain.linearRampToValueAtTime(0.58, t0 + attack + 0.22);
+            amp.gain.setValueAtTime(0.58, end - release);
+            amp.gain.linearRampToValueAtTime(0, end);
+
+            // साँस की बहुत हल्की धड़कन।
+            const tremolo = audioCtx.createOscillator();
+            const tremoloDepth = audioCtx.createGain();
+            const tremoloGain = audioCtx.createGain();
+            tremolo.frequency.setValueAtTime(4.6, t0);
+            tremoloDepth.gain.setValueAtTime(0.03, t0);
+            tremoloGain.gain.setValueAtTime(0.97, t0);
+            tremolo.connect(tremoloDepth);
+            tremoloDepth.connect(tremoloGain.gain);
+
+            // फूँक की सरसराहट।
+            const breath = audioCtx.createBufferSource();
+            const breathFilter = audioCtx.createBiquadFilter();
+            const breathGain = audioCtx.createGain();
+            breath.buffer = breathBuffer;
+            breath.loop = true;
+            breathFilter.type = 'bandpass';
+            breathFilter.frequency.setValueAtTime(Math.min(freq * 2.2, 6000), t0);
+            breathFilter.Q.setValueAtTime(1.2, t0);
+            breathGain.gain.setValueAtTime(0, t0);
+            breathGain.gain.linearRampToValueAtTime(0.09, t0 + 0.03);
+            breathGain.gain.linearRampToValueAtTime(0.035, t0 + 0.2);
+            breathGain.gain.setValueAtTime(0.035, end - release);
+            breathGain.gain.linearRampToValueAtTime(0, end);
+
+            osc.connect(tone);
+            tone.connect(amp);
+            amp.connect(tremoloGain);
+            tremoloGain.connect(fluteBus);
+            breath.connect(breathFilter);
+            breathFilter.connect(breathGain);
+            breathGain.connect(fluteBus);
+
+            osc.start(t0);
+            vibrato.start(t0);
+            tremolo.start(t0);
+            breath.start(t0, Math.random() * 1.5);
+            [osc, vibrato, tremolo, breath].forEach(node => node.stop(end + 0.05));
+        }
+
+        // items: [{ swara, mult }]
+        function playItems(items, { noteDuration = 0.8, gap = 0.1, onDone = null } = {}) {
+            initAudio();
+            state.isPlaying = true;
+            updateControls();
+
+            items.forEach((item, index) => {
+                playFluteNote(item.swara, item.mult, index * (noteDuration + gap), noteDuration);
+            });
+
+            const totalDuration = items.length * (noteDuration + gap) * 1000;
+            window.setTimeout(() => {
+                state.isPlaying = false;
+                updateControls();
+                if (onDone) onDone();
+            }, totalDuration);
+        }
+
+        function sequenceToItems(sequence) {
+            return sequence.map(note => ({
+                swara: SWARAS.find(s => s.id === note.swaraId),
+                mult: SAPTAKS.find(s => s.id === note.saptakId).mult
+            }));
         }
 
         function playSequence(sequence) {
+            playItems(sequenceToItems(sequence));
+        }
+
+        function playSingleNotePreview(saptakId, swaraId) {
+            const swara = SWARAS.find(item => item.id === swaraId);
+            const saptak = SAPTAKS.find(item => item.id === saptakId);
             initAudio();
-            state.isPlaying = true;
-            els.playPromptBtn.disabled = true;
-            els.repeatPromptBtn.disabled = true;
+            playFluteNote(swara, saptak.mult, 0, 0.5);
+        }
 
-            const noteDuration = 0.8;
-            const gap = 0.1;
-            sequence.forEach((note, index) => {
-                const swaraObj = SWARAS.find(s => s.id === note.swaraId);
-                const saptakObj = SAPTAKS.find(s => s.id === note.saptakId);
-                playFluteNote(swaraObj, saptakObj.mult, index * (noteDuration + gap), noteDuration);
+        function playReferenceSa() {
+            if (state.isPlaying) return;
+            initAudio();
+            playItems([{ swara: SWARAS[0], mult: 1 }], { noteDuration: 1.8, gap: 0.1 });
+        }
+
+        // राग के स्वर: मध्य सप्तक का आरोह, तार सा, फिर अवरोह (सरल स्वर-समूह, वक्र चाल नहीं)।
+        function playRagaScale() {
+            if (state.isPlaying) return;
+            const notes = SWARAS.filter(s => RAGAS[state.raga].notes.includes(s.id));
+            const ascending = notes.map(swara => ({ swara, mult: 1 }));
+            const topSa = [{ swara: SWARAS[0], mult: 2 }];
+            const descending = [...notes].reverse().map(swara => ({ swara, mult: 1 }));
+            setFeedback('msgScalePlaying', '');
+            playItems([...ascending, ...topSa, ...descending], {
+                noteDuration: 0.6,
+                gap: 0.05,
+                onDone: () => setFeedback('msgScaleDone', '')
             });
-
-            const totalDuration = sequence.length * (noteDuration + gap) * 1000;
-            window.setTimeout(() => {
-                state.isPlaying = false;
-                els.playPromptBtn.disabled = false;
-                if (state.promptSequence.length > 0) els.repeatPromptBtn.disabled = false;
-                updateGridState();
-            }, totalDuration);
         }
 
         function playTanpuraString(ratio, startTime) {
@@ -594,10 +992,19 @@
             oscTri.stop(startTime + 5.5);
         }
 
+        function tanpuraFirstRatio() {
+            let key = state.tanpuraTune;
+            if (key === 'auto') {
+                const notes = RAGAS[state.raga].notes;
+                key = notes.includes('P') ? 'P' : (notes.includes('N') ? 'N' : 'm');
+            }
+            return TANPURA_TUNINGS[key].ratio;
+        }
+
         function scheduleTanpuraCycle() {
             if (!state.tanpuraOn) return;
             const now = audioCtx.currentTime;
-            playTanpuraString(0.75, now);
+            playTanpuraString(tanpuraFirstRatio(), now);
             playTanpuraString(1.0, now + 1.0);
             playTanpuraString(1.0, now + 2.0);
             playTanpuraString(0.5, now + 3.0);
@@ -608,7 +1015,7 @@
             state.tanpuraOn = !state.tanpuraOn;
             els.tanpuraToggleBtn.classList.toggle('is-on', state.tanpuraOn);
             els.tanpuraToggleBtn.setAttribute('aria-pressed', String(state.tanpuraOn));
-            els.tanpuraStateText.innerText = state.tanpuraOn ? 'चालू' : 'बंद';
+            els.tanpuraStateText.innerText = state.tanpuraOn ? t('on') : t('off');
 
             if (state.tanpuraOn) {
                 scheduleTanpuraCycle();
@@ -618,25 +1025,118 @@
             }
         }
 
-        /* खेल की स्थिति और दृश्य */
-        function setupUI() {
-            SCALES.forEach((scale, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.innerText = `${scale.name} (${toDevanagariDigits(scale.freq.toFixed(2))} हर्ट्ज़)`;
-                if (index === 1) option.selected = true;
-                els.scaleSelect.appendChild(option);
-            });
+        /* सेटिंग का संग्रह (केवल इसी ब्राउज़र में) */
+        function saveSettings() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    scale: els.scaleSelect.value,
+                    lang: lang,
+                    raga: state.raga,
+                    tuning: state.tuning,
+                    mode: state.modeLength,
+                    difficulty: state.difficulty,
+                    tanpuraTune: state.tanpuraTune,
+                    mandra: els.mandraCheck.checked,
+                    taar: els.taarCheck.checked,
+                    fluteVol: els.fluteVolSlider.value,
+                    tanpuraVol: els.tanpuraVolSlider.value
+                }));
+            } catch (error) { /* संग्रह उपलब्ध न हो तो चुपचाप आगे बढ़ें */ }
+        }
 
-            Object.keys(RAGAS).forEach(key => {
+        function loadSettings() {
+            let saved = {};
+            try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {}; } catch (error) { saved = {}; }
+
+            if (saved.scale !== undefined && SCALES[saved.scale]) els.scaleSelect.value = saved.scale;
+            if (saved.raga && RAGAS[saved.raga]) state.raga = saved.raga;
+            if (saved.tuning === 'raga' || saved.tuning === 'standard') state.tuning = saved.tuning;
+            if ([1, 2, 3, 4, 5].includes(Number(saved.mode))) state.modeLength = Number(saved.mode);
+            if (STEP_LIMITS[saved.difficulty] !== undefined) state.difficulty = saved.difficulty;
+            if (TANPURA_TUNINGS[saved.tanpuraTune]) state.tanpuraTune = saved.tanpuraTune;
+            els.mandraCheck.checked = Boolean(saved.mandra);
+            els.taarCheck.checked = Boolean(saved.taar);
+            if (saved.fluteVol !== undefined) els.fluteVolSlider.value = saved.fluteVol;
+            if (saved.tanpuraVol !== undefined) els.tanpuraVolSlider.value = saved.tanpuraVol;
+
+            baseFreq = SCALES[els.scaleSelect.value].freq;
+            els.ragaSelect.value = state.raga;
+            els.tuningSelect.value = state.tuning;
+            els.modeSelect.value = String(state.modeLength);
+            els.stepSelect.value = state.difficulty;
+            els.tanpuraTuneSelect.value = state.tanpuraTune;
+        }
+
+        /* दृश्य */
+        function detectLanguage() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
+                if (saved.lang === 'hi' || saved.lang === 'en') return saved.lang;
+            } catch (error) { /* ignore */ }
+            // पहली बार: हिंदी/मराठी/संस्कृत/नेपाली ब्राउज़र में हिंदी, अन्यथा अंग्रेज़ी। इसे बदलने के लिए यहाँ 'hi' या 'en' लौटाएँ।
+            return /^(hi|mr|sa|ne)/i.test(navigator.language || '') ? 'hi' : 'en';
+        }
+
+        function buildSelect(select, entries) {
+            const previous = select.value;
+            select.innerHTML = '';
+            entries.forEach(([value, label]) => {
                 const option = document.createElement('option');
-                option.value = key;
-                option.innerText = RAGAS[key].name;
-                els.ragaSelect.appendChild(option);
+                option.value = value;
+                option.innerText = label;
+                select.appendChild(option);
             });
+            if (previous && [...select.options].some(option => option.value === previous)) select.value = previous;
+        }
+
+        // भाषा बदलने पर सारा पाठ फिर से बनाएँ।
+        function applyLanguage() {
+            document.documentElement.lang = lang;
+            document.title = t('pageTitle');
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+
+            buildSelect(els.scaleSelect, SCALES.map((scale, index) =>
+                [String(index), `${lang === 'hi' ? scale.name : SCALE_EN[index]} (${num(scale.freq.toFixed(2))} ${t('hz')})`]));
+            buildSelect(els.ragaSelect, Object.keys(RAGAS).map(key => [key, ragaName(key)]));
+            buildSelect(els.tanpuraTuneSelect, Object.keys(TANPURA_TUNINGS).map(key =>
+                [key, lang === 'hi' ? TANPURA_TUNINGS[key].name : TANPURA_TUNINGS[key].en]));
+
+            els.tanpuraStateText.innerText = state.tanpuraOn ? t('on') : t('off');
+            els.langToggle.textContent = t('langBtn');
+            renderScore();
+            refreshRagaView();
+            renderVisualizer();
+            renderFeedback();
+            renderShrutiRef();
+        }
+
+        function renderShrutiRef() {
+            let rows = '';
+            Object.keys(RAGAS).forEach(key => {
+                const raga = RAGAS[key];
+                if (!raga.tuning) return;
+                const swaras = SWARAS.filter(s => raga.notes.includes(s.id) && raga.tuning[s.id] !== undefined);
+                swaras.forEach((swara, index) => {
+                    const used = raga.tuning[swara.id];
+                    const diff = Math.round(centsOf(used) - centsOf(swara.ratio));
+                    const sign = diff > 0 ? '+' : (diff < 0 ? '−' : '');
+                    rows += `<tr>${index === 0 ? `<th scope="rowgroup" rowspan="${swaras.length}">${ragaName(key)}</th>` : ''}`
+                        + `<td>${sym(swara)}</td>`
+                        + `<td>${ratioText(used)} · ${num(Math.round(centsOf(used)))}</td>`
+                        + `<td>${ratioText(swara.ratio)} · ${num(Math.round(centsOf(swara.ratio)))}</td>`
+                        + `<td>${sign}${num(Math.abs(diff))}</td></tr>`;
+                });
+            });
+            els.shrutiRef.innerHTML = `<p class="ref-intro">${t('refIntro')}</p>`
+                + `<div class="table-wrap"><table class="ref-table"><thead><tr><th>${t('refRaga')}</th><th>${t('refSwara')}</th>`
+                + `<th>${t('refUsed')}</th><th>${t('refStd')}</th><th>${t('refDiff')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        }
+
+        function setupUI() {
+            lang = detectLanguage();
 
             SAPTAKS.forEach(saptak => {
-                const grid = document.getElementById(`${saptak.id}Grid`);
+                const grid = $(`${saptak.id}Grid`);
                 SWARAS.forEach(swara => {
                     const button = document.createElement('button');
                     button.type = 'button';
@@ -647,26 +1147,109 @@
                         ? `<span class="octave-dot ${saptak.dotPosition}" aria-hidden="true"></span>`
                         : '';
                     button.innerHTML = `${dot}
-                        <span class="swara-symbol">${swara.symbol}</span>
-                        <span class="swara-detail">${swara.detail}</span>`;
-                    button.setAttribute('aria-label', `${saptak.name} सप्तक, ${swara.name}`);
+                        <span class="swara-symbol"></span>
+                        <span class="swara-detail"></span>`;
                     button.addEventListener('click', () => handleGuessInput(saptak.id, swara.id));
                     grid.appendChild(button);
                 });
             });
 
+            applyLanguage();
+            els.scaleSelect.value = '1';
+            els.ragaSelect.value = state.raga;
+            loadSettings();
+            els.mandraGrid.classList.toggle('hidden', !els.mandraCheck.checked);
+            els.taarGrid.classList.toggle('hidden', !els.taarCheck.checked);
+            updateOctaveLabels();
+            refreshRagaView();
+        }
+
+        function updateOctaveLabels() {
+            const showLabels = els.mandraCheck.checked || els.taarCheck.checked;
+            els.taarLabel.hidden = !(showLabels && els.taarCheck.checked);
+            els.madhyaLabel.hidden = !showLabels;
+            els.mandraLabel.hidden = !(showLabels && els.mandraCheck.checked);
+        }
+
+        // राग या स्वरस्थान बदलने पर सभी संबंधित दृश्य फिर से बनाएँ।
+        function refreshRagaView() {
+            renderRagaInfo();
             updateGridState();
-            renderVisualizer();
+            updateControls();
+        }
+
+        function renderRagaInfo() {
+            const raga = RAGAS[state.raga];
+            els.ragaInfoTitle.innerText = t('ragaInfoTitle', { name: ragaName(state.raga) });
+            els.ragaChips.innerHTML = '';
+
+            const atiNames = [];
+            SWARAS.filter(s => raga.notes.includes(s.id)).forEach(swara => {
+                const ratio = effectiveRatio(swara);
+                const ati = isAti(swara, ratio);
+                if (ati) atiNames.push({ swara, ratio });
+
+                const chip = document.createElement('span');
+                chip.className = `chip ${swara.isShuddha ? 'shuddha' : 'vikrit'}${ati ? ' ati' : ''}`;
+                chip.title = `${swaraName(swara)} — ${centsText(ratio)}`;
+                chip.innerHTML = `${sym(swara)}<small>${swaraDetail(swara)}</small>`;
+                els.ragaChips.appendChild(chip);
+            });
+
+            const parts = [];
+            if (atiNames.length > 0) {
+                const list = atiNames.map(({ swara, ratio }) =>
+                    t('atiItem', { sym: sym(swara), cents: centsText(ratio), std: centsText(swara.ratio) })
+                ).join('; ');
+                parts.push(t('atiNote', { list }));
+            } else if (state.tuning === 'standard' && raga.tuning) {
+                parts.push(t('stdNote'));
+            }
+            const note = lang === 'hi' ? raga.note : raga.noteEn;
+            if (state.tuning === 'raga' && note) parts.push(note);
+            els.ragaNote.innerText = parts.join(' ');
         }
 
         function updateGridState() {
             const allowedNotes = RAGAS[state.raga].notes;
+            const visibleCount = allowedNotes.length;
+            const cols = visibleCount <= 8 ? visibleCount : 6;
+
             SAPTAKS.forEach(saptak => {
+                $(`${saptak.id}Grid`).style.setProperty('--cols', cols);
                 SWARAS.forEach(swara => {
-                    const button = document.getElementById(`btn-${saptak.id}-${swara.id}`);
-                    if (button) button.disabled = state.isPlaying || !allowedNotes.includes(swara.id);
+                    const button = $(`btn-${saptak.id}-${swara.id}`);
+                    if (!button) return;
+                    const inRaga = allowedNotes.includes(swara.id);
+                    const ratio = effectiveRatio(swara);
+                    const ati = isAti(swara, ratio);
+
+                    button.classList.toggle('out-of-raga', !inRaga);
+                    button.classList.toggle('ati', ati);
+                    button.disabled = state.isPlaying || !inRaga;
+                    button.querySelector('.swara-symbol').innerText = sym(swara);
+                    button.querySelector('.swara-detail').innerText = swaraDetail(swara);
+                    button.title = `${swaraName(swara)} — ${centsText(ratio)}`;
+                    button.setAttribute('aria-label', t('ariaNote', { oct: octaveWord(saptak.id), swara: swaraName(swara) }));
                 });
             });
+        }
+
+        function updateControls() {
+            const busy = state.isPlaying;
+            const hasPrompt = state.promptSequence.length > 0;
+            els.playPromptBtn.disabled = busy;
+            els.repeatPromptBtn.disabled = busy || !hasPrompt;
+            els.revealBtn.disabled = busy || !hasPrompt;
+            els.playSaBtn.disabled = busy;
+            els.playRagaBtn.disabled = busy;
+            updateGridState();
+        }
+
+        function renderScore() {
+            els.scoreVal.innerText = num(state.score);
+            els.totalVal.innerText = num(state.total);
+            els.streakVal.innerText = num(state.streak);
         }
 
         function renderVisualizer(isError = false) {
@@ -687,11 +1270,11 @@
                     }
                     const symbol = document.createElement('span');
                     symbol.className = 'slot-symbol';
-                    symbol.innerText = swara.symbol;
+                    symbol.innerText = sym(swara);
                     box.appendChild(symbol);
                     const detail = document.createElement('span');
                     detail.className = 'slot-detail';
-                    detail.innerText = swara.detail;
+                    detail.innerText = swaraDetail(swara);
                     box.appendChild(detail);
                     box.classList.add(isError && index === state.guessSequence.length - 1 ? 'incorrect' : 'correct');
                 } else {
@@ -702,64 +1285,106 @@
             }
         }
 
-        function setFeedback(message, type) {
-            els.feedbackText.innerText = message;
-            els.feedbackText.className = `feedback${type ? ` ${type}` : ''}`;
+        // संदेश कुंजी के रूप में रखे जाते हैं ताकि भाषा बदलने पर वही संदेश नई भाषा में दिखे।
+        function setFeedback(key, type, params) {
+            lastFeedback = { key, type: type || '', params: params || null };
+            renderFeedback();
         }
 
+        function renderFeedback() {
+            const resolved = {};
+            if (lastFeedback.params) {
+                Object.keys(lastFeedback.params).forEach(name => {
+                    const value = lastFeedback.params[name];
+                    resolved[name] = typeof value === 'function' ? value() : value;
+                });
+            }
+            els.feedbackText.innerText = t(lastFeedback.key, resolved);
+            els.feedbackText.className = `feedback${lastFeedback.type ? ` ${lastFeedback.type}` : ''}`;
+        }
+
+        function describeSequence(sequence) {
+            return sequence.map(note => {
+                const swara = SWARAS.find(item => item.id === note.swaraId);
+                const saptak = SAPTAKS.find(item => item.id === note.saptakId);
+                const octavePrefix = saptak.id === 'madhya' ? '' : `${octaveWord(saptak.id)} `;
+                return `${octavePrefix}${swaraName(swara)}`;
+            }).join(' — ');
+        }
+
+        function clearRound() {
+            state.promptSequence = [];
+            updateControls();
+        }
+
+        /* अभ्यास का तर्क */
         function generatePrompt() {
+            if (state.isPlaying) return;
             initAudio();
             state.guessSequence = [];
             renderVisualizer();
-            setFeedback('ध्यान से सुनिए…', '');
+            setFeedback('msgListening', '');
 
             const allowedNotes = RAGAS[state.raga].notes;
             const allowedSaptaks = ['madhya'];
             if (els.mandraCheck.checked) allowedSaptaks.push('mandra');
             if (els.taarCheck.checked) allowedSaptaks.push('taar');
 
+            // स्वरों को नीचे से ऊपर के क्रम में रखें, ताकि पास-पास के स्वर सचमुच पास के हों।
             const validPool = [];
-            const saptakOrder = ['mandra', 'madhya', 'taar'];
-            saptakOrder.forEach(saptakId => {
-                if (allowedSaptaks.includes(saptakId)) {
-                    SWARAS.forEach(swara => {
-                        if (allowedNotes.includes(swara.id)) validPool.push({ saptakId, swaraId: swara.id });
-                    });
-                }
+            ['mandra', 'madhya', 'taar'].forEach(saptakId => {
+                if (!allowedSaptaks.includes(saptakId)) return;
+                SWARAS.forEach(swara => {
+                    if (allowedNotes.includes(swara.id)) validPool.push({ saptakId, swaraId: swara.id });
+                });
             });
 
-            state.promptSequence = [];
+            const maxStep = STEP_LIMITS[state.difficulty];
+            const sequence = [];
             let currentIndex = Math.floor(Math.random() * validPool.length);
             for (let index = 0; index < state.modeLength; index++) {
                 if (index > 0) {
-                    const maxStep = 2;
-                    const minPossible = Math.max(0, currentIndex - maxStep);
-                    const maxPossible = Math.min(validPool.length - 1, currentIndex + maxStep);
-                    currentIndex = Math.floor(Math.random() * (maxPossible - minPossible + 1)) + minPossible;
+                    const low = Math.max(0, currentIndex - maxStep);
+                    const high = Math.min(validPool.length - 1, currentIndex + maxStep);
+                    let next = currentIndex;
+                    if (high > low) {
+                        do { next = low + Math.floor(Math.random() * (high - low + 1)); } while (next === currentIndex);
+                    }
+                    currentIndex = next;
                 }
-                if (validPool[currentIndex]) state.promptSequence.push(validPool[currentIndex]);
+                sequence.push(validPool[currentIndex]);
             }
 
+            state.promptSequence = sequence;
             playSequence(state.promptSequence);
-            updateGridState();
         }
 
         function repeatPrompt() {
-            initAudio();
             if (state.promptSequence.length === 0 || state.isPlaying) return;
-            setFeedback('स्वरक्रम दोहराया जा रहा है…', '');
+            setFeedback('msgRepeating', '');
             playSequence(state.promptSequence);
         }
 
-        function playSingleNotePreview(saptakId, swaraId) {
-            const swara = SWARAS.find(item => item.id === swaraId);
-            const saptak = SAPTAKS.find(item => item.id === saptakId);
-            playFluteNote(swara, saptak.mult, 0, 0.4);
+        function revealAnswer() {
+            if (state.promptSequence.length === 0 || state.isPlaying) return;
+            state.total++;
+            state.streak = 0;
+            renderScore();
+            const answer = state.promptSequence;
+            setFeedback('msgReveal', 'error', { seq: () => describeSequence(answer) });
+            clearRound();
         }
 
         function handleGuessInput(saptakId, swaraId) {
             initAudio();
-            if (state.isPlaying || state.promptSequence.length === 0) return;
+            if (state.isPlaying) return;
+
+            // कोई स्वर सुनाया न गया हो तो बटन केवल स्वर परखने के लिए है।
+            if (state.promptSequence.length === 0) {
+                playSingleNotePreview(saptakId, swaraId);
+                return;
+            }
+
             const currentGuessIndex = state.guessSequence.length;
             if (currentGuessIndex >= state.modeLength) return;
 
@@ -767,92 +1392,124 @@
             const expectedNote = state.promptSequence[currentGuessIndex];
             const isCorrect = expectedNote.swaraId === swaraId && expectedNote.saptakId === saptakId;
 
-            if (isCorrect) {
-                state.guessSequence.push({ saptakId, swaraId });
-                renderVisualizer();
+            state.guessSequence.push({ saptakId, swaraId });
 
+            if (isCorrect) {
+                renderVisualizer();
                 if (state.guessSequence.length === state.modeLength) {
                     state.score++;
                     state.total++;
-                    setFeedback('सही! बहुत अच्छा!', 'success');
-                    els.scoreVal.innerText = toDevanagariDigits(state.score);
-                    els.totalVal.innerText = toDevanagariDigits(state.total);
-                    state.promptSequence = [];
-                    els.repeatPromptBtn.disabled = true;
+                    state.streak++;
+                    renderScore();
+                    setFeedback('msgCorrect', 'success');
+                    clearRound();
                 }
             } else {
                 state.total++;
-                els.totalVal.innerText = toDevanagariDigits(state.total);
-                state.guessSequence.push({ saptakId, swaraId });
+                state.streak = 0;
+                renderScore();
                 renderVisualizer(true);
-
-                const correctSequence = state.promptSequence.map(note => {
-                    const swara = SWARAS.find(item => item.id === note.swaraId);
-                    const saptak = SAPTAKS.find(item => item.id === note.saptakId);
-                    const octavePrefix = saptak.id === 'taar' ? 'तार ' : (saptak.id === 'mandra' ? 'मंद्र ' : '');
-                    return `${octavePrefix}${swara.name}`;
-                }).join(' — ');
-
-                setFeedback(`गलत। सही स्वरक्रम था: ${correctSequence}`, 'error');
-                state.promptSequence = [];
-                els.repeatPromptBtn.disabled = true;
+                const answer = state.promptSequence;
+                setFeedback('msgWrong', 'error', { seq: () => describeSequence(answer) });
+                clearRound();
             }
+        }
+
+        function resetRound(message) {
+            state.promptSequence = [];
+            state.guessSequence = [];
+            renderVisualizer();
+            refreshRagaView();
+            setFeedback(message, '');
         }
 
         /* नियंत्रण */
         els.scaleSelect.addEventListener('change', event => {
             baseFreq = SCALES[event.target.value].freq;
+            saveSettings();
         });
 
         els.ragaSelect.addEventListener('change', event => {
             state.raga = event.target.value;
-            state.promptSequence = [];
-            state.guessSequence = [];
-            els.repeatPromptBtn.disabled = true;
-            renderVisualizer();
-            updateGridState();
-            setFeedback('राग बदल गया है। नया स्वर सुनने के लिए «स्वर सुनें» दबाएँ।', '');
+            saveSettings();
+            resetRound('msgRagaChanged');
+        });
+
+        els.tuningSelect.addEventListener('change', event => {
+            state.tuning = event.target.value;
+            saveSettings();
+            resetRound(state.tuning === 'raga' ? 'msgTuningRaga' : 'msgTuningStd');
         });
 
         els.modeSelect.addEventListener('change', event => {
             state.modeLength = Number.parseInt(event.target.value, 10);
-            state.promptSequence = [];
-            state.guessSequence = [];
-            els.repeatPromptBtn.disabled = true;
-            renderVisualizer();
-            setFeedback('अभ्यास का प्रकार बदल गया है। «स्वर सुनें» दबाएँ।', '');
+            saveSettings();
+            resetRound('msgModeChanged');
+        });
+
+        els.stepSelect.addEventListener('change', event => {
+            state.difficulty = event.target.value;
+            saveSettings();
+            resetRound('msgStepChanged');
+        });
+
+        els.tanpuraTuneSelect.addEventListener('change', event => {
+            state.tanpuraTune = event.target.value;
+            saveSettings();
         });
 
         els.mandraCheck.addEventListener('change', event => {
             els.mandraGrid.classList.toggle('hidden', !event.target.checked);
+            updateOctaveLabels();
+            saveSettings();
         });
 
         els.taarCheck.addEventListener('change', event => {
             els.taarGrid.classList.toggle('hidden', !event.target.checked);
+            updateOctaveLabels();
+            saveSettings();
         });
 
         els.playPromptBtn.addEventListener('click', generatePrompt);
         els.repeatPromptBtn.addEventListener('click', repeatPrompt);
+        els.revealBtn.addEventListener('click', revealAnswer);
+        els.playSaBtn.addEventListener('click', playReferenceSa);
+        els.playRagaBtn.addEventListener('click', playRagaScale);
         els.tanpuraToggleBtn.addEventListener('click', toggleTanpura);
+        els.langToggle.addEventListener('click', () => {
+            lang = lang === 'hi' ? 'en' : 'hi';
+            saveSettings();
+            applyLanguage();
+        });
 
         els.resetBtn.addEventListener('click', () => {
             state.score = 0;
             state.total = 0;
-            els.scoreVal.innerText = '०';
-            els.totalVal.innerText = '०';
+            state.streak = 0;
             state.promptSequence = [];
             state.guessSequence = [];
-            els.repeatPromptBtn.disabled = true;
+            renderScore();
             renderVisualizer();
-            setFeedback('अंक रीसेट कर दिए गए हैं।', '');
+            updateControls();
+            setFeedback('msgScoreReset', '');
         });
 
         els.fluteVolSlider.addEventListener('input', event => {
             if (fluteMasterGain) fluteMasterGain.gain.value = event.target.value;
+            saveSettings();
         });
 
         els.tanpuraVolSlider.addEventListener('input', event => {
             if (tanpuraMasterGain) tanpuraMasterGain.gain.value = event.target.value;
+            saveSettings();
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.ctrlKey || event.metaKey || event.altKey) return;
+            if (event.target.matches('input, select, textarea')) return;
+            const key = event.key.toLowerCase();
+            if (key === 'n' && !els.playPromptBtn.disabled) generatePrompt();
+            if (key === 'r' && !els.repeatPromptBtn.disabled) repeatPrompt();
         });
 
         window.addEventListener('DOMContentLoaded', setupUI);
