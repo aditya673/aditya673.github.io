@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="हिंदुस्तानी शास्त्रीय संगीत के स्वरों और रागों के अभ्यास के लिए श्रवण प्रशिक्षण।">
+    <title>स्वर अभ्यास — श्रवण प्रशिक्षण</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&family=Noto+Sans+Devanagari:wght@400;500;600;700">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blue: #426BBA;
+            --blue-dark: #315798;
+            --text: #333;
+            --muted: #666;
+            --light-muted: #888;
+            --border: #e8e8e8;
+            --surface: #fff;
+            --surface-soft: #f8f9fb;
+            --success: #27834a;
+            --error: #c33d3d;
+        }
+
+        body {
+            font-family: 'Roboto', 'Noto Sans Devanagari', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text);
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        button, input, select { font: inherit; }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        h1, h2, h3 { font-weight: 400; color: #000; }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        .page-header { padding: 34px 0 25px; text-align: center; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        .back-link:hover { color: var(--blue); }
+        .back-arrow { font-size: 1.2rem; line-height: 1; }
+        .page-title { font-size: 2.2rem; font-weight: 400; color: #000; line-height: 1.3; }
+        .page-subtitle { font-size: 1.1rem; color: var(--muted); margin-top: 5px; }
+
+        .app-layout { display: flex; flex-direction: column; gap: 18px; padding-bottom: 48px; }
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+        }
+        .settings-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+        .field-label {
+            color: #555;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        select {
+            width: 100%;
+            min-height: 42px;
+            padding: 8px 10px;
+            color: var(--text);
+            background: #fff;
+            border: 1px solid #d8dce3;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        select:focus, input:focus-visible, button:focus-visible, a:focus-visible {
+            outline: 2px solid rgba(66, 107, 186, 0.35);
+            outline-offset: 2px;
+        }
+        .checkbox-list { display: flex; flex-direction: column; gap: 8px; padding-top: 2px; }
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #444;
+            font-size: 0.92rem;
+            cursor: pointer;
+        }
+        .check-label input { width: 16px; height: 16px; accent-color: var(--blue); }
+
+        .volume-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
+        .volume-field { display: flex; flex-direction: column; gap: 10px; }
+        .volume-heading { display: flex; justify-content: space-between; align-items: center; color: #555; font-size: 0.92rem; font-weight: 500; }
+        input[type="range"] { width: 100%; accent-color: var(--blue); cursor: pointer; }
+
+        .game-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: stretch; }
+        .sidebar { display: flex; flex-direction: column; gap: 18px; }
+        .tanpura-panel { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .panel-heading { color: #555; font-size: 0.95rem; font-weight: 500; margin-bottom: 14px; }
+        .tanpura-button {
+            width: 78px;
+            height: 78px;
+            border: 2px solid #cbd4e4;
+            border-radius: 50%;
+            background: #f4f7fc;
+            color: var(--blue-dark);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .tanpura-button:hover { border-color: var(--blue); transform: translateY(-1px); }
+        .tanpura-button.is-on { background: var(--blue); border-color: var(--blue); color: #fff; }
+        .panel-note { color: var(--light-muted); font-size: 0.82rem; margin-top: 12px; }
+
+        .score-panel { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .score-title { color: #555; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; }
+        .score-line { display: flex; justify-content: center; align-items: baseline; gap: 9px; color: #999; font-size: 1.5rem; }
+        .score-line .correct-score { color: var(--success); font-size: 2.4rem; font-weight: 400; }
+        .score-line .total-score { color: #555; font-size: 2rem; font-weight: 400; }
+        .score-caption { color: var(--light-muted); font-size: 0.78rem; margin-top: 2px; }
+        .text-button { border: 0; background: transparent; color: var(--blue); cursor: pointer; font-size: 0.86rem; margin-top: 12px; }
+        .text-button:hover { text-decoration: underline; }
+
+        .game-panel { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+        .interaction-stage {
+            background: var(--surface-soft);
+            border: 1px solid #edf0f4;
+            border-radius: 8px;
+            padding: 25px 18px 20px;
+            text-align: center;
+        }
+        .action-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+        .primary-button, .secondary-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .primary-button { border: 1px solid var(--blue); color: #fff; background: var(--blue); }
+        .primary-button:hover:not(:disabled) { background: var(--blue-dark); border-color: var(--blue-dark); }
+        .secondary-button { border: 1px solid #d8dce3; color: #444; background: #fff; }
+        .secondary-button:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+        .primary-button:active:not(:disabled), .secondary-button:active:not(:disabled) { transform: translateY(1px); }
+        button:disabled { opacity: 0.42; cursor: not-allowed; }
+        .button-icon { font-size: 1.1rem; line-height: 1; }
+
+        .guess-title { color: #666; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 12px; }
+        .guess-visualizer { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; min-height: 64px; }
+        .guess-slot {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 62px;
+            min-height: 62px;
+            padding: 7px 3px;
+            border: 1px solid #dfe3e9;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+        }
+        .guess-slot .slot-symbol { font-size: 1.35rem; font-weight: 600; line-height: 1.25; }
+        .guess-slot .slot-detail { font-size: 0.62rem; color: #777; line-height: 1.2; }
+        .guess-slot.empty { background: #fff; color: #aaa; font-size: 1.35rem; }
+        .guess-slot.correct { border-color: #8fcba4; background: #f2faf4; color: var(--success); }
+        .guess-slot.correct .slot-detail { color: #568565; }
+        .guess-slot.incorrect { border-color: #e5a0a0; background: #fff5f5; color: var(--error); }
+        .guess-slot.incorrect .slot-detail { color: #a66b6b; }
+        .octave-dot {
+            position: absolute;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            transform: translateX(-50%);
+            opacity: 0.7;
+        }
+        .octave-dot.top { top: 5px; }
+        .octave-dot.bottom { bottom: 5px; }
+        .feedback {
+            min-height: 30px;
+            margin-top: 18px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #666;
+        }
+        .feedback.success { color: var(--success); }
+        .feedback.error { color: var(--error); }
+
+        .swara-grids { display: flex; flex-direction: column; gap: 16px; }
+        .swara-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 9px; }
+        .swara-grid.hidden { display: none; }
+        .swara-btn {
+            position: relative;
+            min-height: 78px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 9px 5px;
+            border: 1px solid #e0e4ea;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.18s, background 0.18s, transform 0.18s;
+        }
+        .swara-btn:hover:not(:disabled) { border-color: var(--blue); background: #f7f9fd; transform: translateY(-1px); }
+        .swara-btn.shuddha { color: var(--blue); }
+        .swara-btn.vikrit { color: #97652e; }
+        .swara-btn:disabled { background: #fafafa; border-color: #eee; opacity: 0.42; }
+        .swara-symbol { font-size: 1.55rem; font-weight: 600; line-height: 1.35; }
+        .swara-detail { color: #777; font-size: 0.72rem; font-weight: 400; }
+
+        @media (max-width: 760px) {
+            .settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .game-layout { grid-template-columns: 1fr; }
+            .sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .score-panel { min-height: 160px; }
+        }
+        @media (max-width: 520px) {
+            .container { padding: 0 14px; }
+            .page-header { padding: 24px 0 20px; }
+            .page-title { font-size: 1.85rem; }
+            .page-subtitle { font-size: 0.98rem; }
+            .panel { padding: 16px; }
+            .settings-grid, .volume-grid { grid-template-columns: 1fr; gap: 15px; }
+            .sidebar { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .tanpura-panel, .score-panel { padding: 15px 10px; }
+            .game-panel { padding: 14px; }
+            .interaction-stage { padding: 19px 10px 15px; }
+            .swara-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .primary-button, .secondary-button { width: 100%; }
+            .action-row { gap: 9px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header class="page-header">
+            <a class="back-link" href="index.html"><span class="back-arrow" aria-hidden="true">←</span> पोर्टफोलियो पर वापस</a>
+            <h1 class="page-title">स्वर अभ्यास</h1>
+            <p class="page-subtitle">हिंदुस्तानी शास्त्रीय संगीत — श्रवण प्रशिक्षण</p>
+        </header>
+
+        <div class="app-layout">
+            <section class="panel settings-grid" aria-label="अभ्यास की सेटिंग">
+                <div class="field">
+                    <label class="field-label" for="scaleSelect">आधार स्वर</label>
+                    <select id="scaleSelect"></select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="ragaSelect">राग</label>
+                    <select id="ragaSelect"></select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="modeSelect">अभ्यास का प्रकार</label>
+                    <select id="modeSelect">
+                        <option value="1">एकल स्वर</option>
+                        <option value="3">तीन स्वरों का क्रम</option>
+                        <option value="4">चार स्वरों का क्रम</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <span class="field-label">सप्तक</span>
+                    <div class="checkbox-list">
+                        <label class="check-label"><input type="checkbox" id="mandraCheck"> मंद्र सप्तक</label>
+                        <label class="check-label"><input type="checkbox" id="taarCheck"> तार सप्तक</label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel volume-grid" aria-label="ध्वनि का स्तर">
+                <div class="volume-field">
+                    <label class="volume-heading" for="fluteVolSlider">बाँसुरी की ध्वनि</label>
+                    <input type="range" id="fluteVolSlider" min="0" max="1" step="0.05" value="0.7">
+                </div>
+                <div class="volume-field">
+                    <label class="volume-heading" for="tanpuraVolSlider">तानपुरे की ध्वनि</label>
+                    <input type="range" id="tanpuraVolSlider" min="0" max="1" step="0.05" value="0.5">
+                </div>
+            </section>
+
+            <div class="game-layout">
+                <aside class="sidebar">
+                    <section class="panel tanpura-panel">
+                        <h2 class="panel-heading">तानपुरा</h2>
+                        <button id="tanpuraToggleBtn" class="tanpura-button" type="button" aria-pressed="false">
+                            <span id="tanpuraStateText">बंद</span>
+                        </button>
+                        <p class="panel-note">चार तारों की तानपुरा ध्वनि</p>
+                    </section>
+
+                    <section class="panel score-panel">
+                        <h2 class="score-title">आपकी शुद्धता</h2>
+                        <div class="score-line">
+                            <span id="scoreVal" class="correct-score">०</span>
+                            <span>/</span>
+                            <span id="totalVal" class="total-score">०</span>
+                        </div>
+                        <p class="score-caption">सही उत्तर / कुल प्रयास</p>
+                        <button id="resetScoreBtn" class="text-button" type="button">अंक रीसेट करें</button>
+                    </section>
+                </aside>
+
+                <section class="panel game-panel" aria-label="स्वर पहचान अभ्यास">
+                    <div class="interaction-stage">
+                        <div class="action-row">
+                            <button id="playPromptBtn" class="primary-button" type="button">
+                                <span class="button-icon" aria-hidden="true">▶</span>
+                                <span>स्वर सुनें</span>
+                            </button>
+                            <button id="repeatPromptBtn" class="secondary-button" type="button" disabled>
+                                <span class="button-icon" aria-hidden="true">↻</span>
+                                <span>पुनः सुनें</span>
+                            </button>
+                        </div>
+
+                        <div class="guess-area">
+                            <h2 class="guess-title">आपका अनुमान</h2>
+                            <div id="guessVisualizer" class="guess-visualizer"></div>
+                        </div>
+
+                        <div id="feedbackText" class="feedback" role="status" aria-live="polite">
+                            आरम्भ करने के लिए «स्वर सुनें» दबाएँ।
+                        </div>
+                    </div>
+
+                    <div class="swara-grids">
+                        <div id="taarGrid" class="swara-grid hidden"></div>
+                        <div id="madhyaGrid" class="swara-grid"></div>
+                        <div id="mandraGrid" class="swara-grid hidden"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /* संगीत-सिद्धान्त और स्थिरांक */
+
+        // आधार स्वर: मध्य सप्तक के पश्चिमी पिचों के समतुल्य नाम देवनागरी में।
+        const SCALES = [
+            { name: 'सी', freq: 261.63 },
+            { name: 'सी तीव्र / डी कोमल', freq: 277.18 },
+            { name: 'डी', freq: 293.66 },
+            { name: 'डी तीव्र / ई कोमल', freq: 311.13 },
+            { name: 'ई', freq: 329.63 },
+            { name: 'एफ', freq: 349.23 },
+            { name: 'एफ तीव्र / जी कोमल', freq: 369.99 },
+            { name: 'जी', freq: 392.00 },
+            { name: 'जी तीव्र / ए कोमल', freq: 415.30 },
+            { name: 'ए', freq: 440.00 },
+            { name: 'ए तीव्र / बी कोमल', freq: 466.16 },
+            { name: 'बी', freq: 493.88 }
+        ];
+
+        // बारह स्वर और उनके अनुपात।
+        const SWARAS = [
+            { id: 'S', symbol: 'सा', name: 'सा', detail: 'षड्ज', ratio: 1, isShuddha: true },
+            { id: 'r', symbol: 'रे', name: 'रे (कोमल)', detail: 'कोमल', ratio: 16/15, isShuddha: false },
+            { id: 'R', symbol: 'रे', name: 'रे (शुद्ध)', detail: 'शुद्ध', ratio: 9/8, isShuddha: true },
+            { id: 'g', symbol: 'ग', name: 'ग (कोमल)', detail: 'कोमल', ratio: 6/5, isShuddha: false },
+            { id: 'G', symbol: 'ग', name: 'ग (शुद्ध)', detail: 'शुद्ध', ratio: 5/4, isShuddha: true },
+            { id: 'm', symbol: 'म', name: 'म (शुद्ध)', detail: 'शुद्ध', ratio: 4/3, isShuddha: true },
+            { id: 'M', symbol: 'म', name: 'म (तीव्र)', detail: 'तीव्र', ratio: 45/32, isShuddha: false },
+            { id: 'P', symbol: 'प', name: 'प', detail: 'पंचम', ratio: 3/2, isShuddha: true },
+            { id: 'd', symbol: 'ध', name: 'ध (कोमल)', detail: 'कोमल', ratio: 8/5, isShuddha: false },
+            { id: 'D', symbol: 'ध', name: 'ध (शुद्ध)', detail: 'शुद्ध', ratio: 5/3, isShuddha: true },
+            { id: 'n', symbol: 'नि', name: 'नि (कोमल)', detail: 'कोमल', ratio: 9/5, isShuddha: false },
+            { id: 'N', symbol: 'नि', name: 'नि (शुद्ध)', detail: 'शुद्ध', ratio: 15/8, isShuddha: true }
+        ];
+
+        // पूर्वनिर्धारित राग।
+        const RAGAS = {
+            'abhogi':            { name: 'अभोगी', notes: ['S','R','g','m','D'] },
+            'ahir_bhairav':      { name: 'अहीर भैरव', notes: ['S','r','G','m','P','D','n'] },
+            'alhaiya_bilawal':   { name: 'अल्हैया बिलावल', notes: ['S','R','G','m','P','D','n','N'] },
+            'asavari':           { name: 'आसावरी', notes: ['S','R','g','m','P','d','n'] },
+            'bageshri':          { name: 'बागेश्री', notes: ['S','R','g','m','P','D','n'] },
+            'bahar':             { name: 'बहार', notes: ['S','R','g','m','P','D','n','N'] },
+            'basant':            { name: 'बसंत', notes: ['S','r','G','m','M','P','d','N'] },
+            'bhairav':           { name: 'भैरव', notes: ['S','r','G','m','P','d','N'] },
+            'bhairavi':          { name: 'भैरवी', notes: ['S','r','g','m','P','d','n'] },
+            'bhimpalasi':        { name: 'भीमपलासी', notes: ['S','R','g','m','P','D','n'] },
+            'bhoopali':          { name: 'भूपाली (भूप)', notes: ['S','R','G','P','D'], shrutiOverrides: { 'R': 10/9, 'D': 5/3 } },
+            'bihag':             { name: 'बिहाग', notes: ['S','R','G','m','M','P','D','N'] },
+            'bilawal':           { name: 'बिलावल', notes: ['S','R','G','m','P','D','N'] },
+            'brindavani_sarang': { name: 'वृन्दावनी सारंग', notes: ['S','R','m','P','n','N'] },
+            'charukeshi':        { name: 'चारुकेशी', notes: ['S','R','G','m','P','d','n'] },
+            'darbari':            { name: 'दरबारी कान्हड़ा', notes: ['S','R','g','m','P','d','n'], shrutiOverrides: { 'g': 32/27, 'd': 128/81 } },
+            'desh':              { name: 'देश', notes: ['S','R','G','m','P','D','n','N'] },
+            'durga':             { name: 'दुर्गा', notes: ['S','R','m','P','D'], shrutiOverrides: { 'D': 27/16 } },
+            'gorakh_kalyan':     { name: 'गोरख कल्याण', notes: ['S','R','m','D','n'] },
+            'hameer':            { name: 'हमीर', notes: ['S','R','G','m','M','P','D','N'] },
+            'hindol':            { name: 'हिंडोल', notes: ['S','G','M','D','N'] },
+            'jaunpuri':          { name: 'जौनपुरी', notes: ['S','R','g','m','P','d','n'] },
+            'jog':               { name: 'जोग', notes: ['S','g','G','m','P','n','N'] },
+            'kafi':              { name: 'काफी', notes: ['S','R','g','m','P','D','n'] },
+            'kedar':             { name: 'केदार', notes: ['S','R','G','m','M','P','D','N'] },
+            'khamaj':            { name: 'खमाज', notes: ['S','R','G','m','P','D','n','N'] },
+            'madhuvanti':        { name: 'मधुवंती', notes: ['S','R','g','M','P','D','N'] },
+            'malkauns':          { name: 'मालकौंस', notes: ['S','g','m','d','n'] },
+            'marwa':             { name: 'मारवा', notes: ['S','r','G','M','D','N'] },
+            'megh':              { name: 'मेघ', notes: ['S','R','m','P','n'] },
+            'multani':           { name: 'मुल्तानी', notes: ['S','r','g','M','P','d','N'] },
+            'patdeep':           { name: 'पटदीप', notes: ['S','R','g','m','P','D','N'] },
+            'purvi':             { name: 'पूर्वी', notes: ['S','r','G','m','M','P','d','N'] },
+            'shankara':          { name: 'शंकरा', notes: ['S','R','G','P','D','N'] },
+            'shree':             { name: 'श्री', notes: ['S','r','G','M','P','d','N'] },
+            'shuddha_kalyan':    { name: 'शुद्ध कल्याण', notes: ['S','R','G','M','P','D','N'] },
+            'sohini':            { name: 'सोहनी', notes: ['S','r','G','M','D','N'] },
+            'tilak_kamod':       { name: 'तिलक कामोद', notes: ['S','R','G','m','P','D','N'] },
+            'todi':              { name: 'तोड़ी', notes: ['S','r','g','M','P','d','N'] },
+            'yaman':             { name: 'यमन', notes: ['S','R','G','M','P','D','N'] },
+            'all':               { name: 'सभी बारह स्वर', notes: ['S','r','R','g','G','m','M','P','d','D','n','N'] }
+        };
+
+        const SAPTAKS = [
+            { id: 'taar', mult: 2, name: 'तार', dotPosition: 'top' },
+            { id: 'madhya', mult: 1, name: 'मध्य', dotPosition: null },
+            { id: 'mandra', mult: 0.5, name: 'मंद्र', dotPosition: 'bottom' }
+        ];
+
+        const DEVANAGARI_DIGITS = '०१२३४५६७८९';
+        function toDevanagariDigits(value) {
+            return String(value).replace(/[0-9]/g, digit => DEVANAGARI_DIGITS[Number(digit)]);
+        }
+
+        /* अनुप्रयोग की स्थिति */
+        let audioCtx = null;
+        let fluteMasterGain = null;
+        let tanpuraMasterGain = null;
+        let baseFreq = SCALES[1].freq;
+
+        let state = {
+            raga: 'yaman',
+            modeLength: 1,
+            isPlaying: false,
+            tanpuraOn: false,
+            tanpuraInterval: null,
+            score: 0,
+            total: 0,
+            promptSequence: [],
+            guessSequence: []
+        };
+
+        const els = {
+            scaleSelect: document.getElementById('scaleSelect'),
+            ragaSelect: document.getElementById('ragaSelect'),
+            modeSelect: document.getElementById('modeSelect'),
+            mandraCheck: document.getElementById('mandraCheck'),
+            taarCheck: document.getElementById('taarCheck'),
+            tanpuraToggleBtn: document.getElementById('tanpuraToggleBtn'),
+            tanpuraStateText: document.getElementById('tanpuraStateText'),
+            playPromptBtn: document.getElementById('playPromptBtn'),
+            repeatPromptBtn: document.getElementById('repeatPromptBtn'),
+            guessVisualizer: document.getElementById('guessVisualizer'),
+            feedbackText: document.getElementById('feedbackText'),
+            taarGrid: document.getElementById('taarGrid'),
+            madhyaGrid: document.getElementById('madhyaGrid'),
+            mandraGrid: document.getElementById('mandraGrid'),
+            scoreVal: document.getElementById('scoreVal'),
+            totalVal: document.getElementById('totalVal'),
+            resetBtn: document.getElementById('resetScoreBtn'),
+            fluteVolSlider: document.getElementById('fluteVolSlider'),
+            tanpuraVolSlider: document.getElementById('tanpuraVolSlider')
+        };
+
+        /* ध्वनि निर्माण */
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+                fluteMasterGain = audioCtx.createGain();
+                fluteMasterGain.gain.value = els.fluteVolSlider.value;
+                fluteMasterGain.connect(audioCtx.destination);
+
+                tanpuraMasterGain = audioCtx.createGain();
+                tanpuraMasterGain.gain.value = els.tanpuraVolSlider.value;
+                tanpuraMasterGain.connect(audioCtx.destination);
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playFluteNote(swaraObj, saptakMult, timeOffset, duration = 0.8) {
+            const currentRaga = RAGAS[state.raga];
+            const ratio = (currentRaga.shrutiOverrides && currentRaga.shrutiOverrides[swaraObj.id])
+                ? currentRaga.shrutiOverrides[swaraObj.id]
+                : swaraObj.ratio;
+            const freq = baseFreq * ratio * saptakMult;
+            const startTime = audioCtx.currentTime + timeOffset;
+
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            const lfo = audioCtx.createOscillator();
+            const lfoGain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, startTime);
+            lfo.type = 'sine';
+            lfo.frequency.setValueAtTime(5.5, startTime);
+            lfoGain.gain.setValueAtTime(freq * 0.012, startTime);
+            lfo.connect(lfoGain);
+            lfoGain.connect(osc.frequency);
+
+            gainNode.gain.setValueAtTime(0, startTime);
+            gainNode.gain.linearRampToValueAtTime(0.7, startTime + 0.1);
+            gainNode.gain.linearRampToValueAtTime(0.5, startTime + 0.3);
+            gainNode.gain.setValueAtTime(0.5, startTime + duration - 0.2);
+            gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+
+            osc.connect(gainNode);
+            gainNode.connect(fluteMasterGain);
+            osc.start(startTime);
+            lfo.start(startTime);
+            osc.stop(startTime + duration);
+            lfo.stop(startTime + duration);
+        }
+
+        function playSequence(sequence) {
+            initAudio();
+            state.isPlaying = true;
+            els.playPromptBtn.disabled = true;
+            els.repeatPromptBtn.disabled = true;
+
+            const noteDuration = 0.8;
+            const gap = 0.1;
+            sequence.forEach((note, index) => {
+                const swaraObj = SWARAS.find(s => s.id === note.swaraId);
+                const saptakObj = SAPTAKS.find(s => s.id === note.saptakId);
+                playFluteNote(swaraObj, saptakObj.mult, index * (noteDuration + gap), noteDuration);
+            });
+
+            const totalDuration = sequence.length * (noteDuration + gap) * 1000;
+            window.setTimeout(() => {
+                state.isPlaying = false;
+                els.playPromptBtn.disabled = false;
+                if (state.promptSequence.length > 0) els.repeatPromptBtn.disabled = false;
+                updateGridState();
+            }, totalDuration);
+        }
+
+        function playTanpuraString(ratio, startTime) {
+            const freq = baseFreq * ratio;
+            const oscSaw = audioCtx.createOscillator();
+            const oscTri = audioCtx.createOscillator();
+            const filter = audioCtx.createBiquadFilter();
+            const gain = audioCtx.createGain();
+
+            oscSaw.type = 'sawtooth';
+            oscTri.type = 'triangle';
+            oscSaw.frequency.setValueAtTime(freq, startTime);
+            oscTri.frequency.setValueAtTime(freq, startTime);
+
+            filter.type = 'lowpass';
+            filter.Q.setValueAtTime(2.5, startTime);
+            filter.frequency.setValueAtTime(freq * 8, startTime);
+            filter.frequency.exponentialRampToValueAtTime(freq * 1.5, startTime + 1.5);
+            filter.frequency.linearRampToValueAtTime(freq, startTime + 4.5);
+
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(0.3, startTime + 0.3);
+            gain.gain.exponentialRampToValueAtTime(0.1, startTime + 2.0);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 5.0);
+
+            const mixGainSaw = audioCtx.createGain();
+            const mixGainTri = audioCtx.createGain();
+            mixGainSaw.gain.value = 0.35;
+            mixGainTri.gain.value = 0.65;
+            oscSaw.connect(mixGainSaw);
+            oscTri.connect(mixGainTri);
+            mixGainSaw.connect(filter);
+            mixGainTri.connect(filter);
+            filter.connect(gain);
+            gain.connect(tanpuraMasterGain);
+
+            oscSaw.start(startTime);
+            oscTri.start(startTime);
+            oscSaw.stop(startTime + 5.5);
+            oscTri.stop(startTime + 5.5);
+        }
+
+        function scheduleTanpuraCycle() {
+            if (!state.tanpuraOn) return;
+            const now = audioCtx.currentTime;
+            playTanpuraString(0.75, now);
+            playTanpuraString(1.0, now + 1.0);
+            playTanpuraString(1.0, now + 2.0);
+            playTanpuraString(0.5, now + 3.0);
+        }
+
+        function toggleTanpura() {
+            initAudio();
+            state.tanpuraOn = !state.tanpuraOn;
+            els.tanpuraToggleBtn.classList.toggle('is-on', state.tanpuraOn);
+            els.tanpuraToggleBtn.setAttribute('aria-pressed', String(state.tanpuraOn));
+            els.tanpuraStateText.innerText = state.tanpuraOn ? 'चालू' : 'बंद';
+
+            if (state.tanpuraOn) {
+                scheduleTanpuraCycle();
+                state.tanpuraInterval = window.setInterval(scheduleTanpuraCycle, 4500);
+            } else {
+                window.clearInterval(state.tanpuraInterval);
+            }
+        }
+
+        /* खेल की स्थिति और दृश्य */
+        function setupUI() {
+            SCALES.forEach((scale, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.innerText = `${scale.name} (${toDevanagariDigits(scale.freq.toFixed(2))} हर्ट्ज़)`;
+                if (index === 1) option.selected = true;
+                els.scaleSelect.appendChild(option);
+            });
+
+            Object.keys(RAGAS).forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.innerText = RAGAS[key].name;
+                els.ragaSelect.appendChild(option);
+            });
+
+            SAPTAKS.forEach(saptak => {
+                const grid = document.getElementById(`${saptak.id}Grid`);
+                SWARAS.forEach(swara => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.id = `btn-${saptak.id}-${swara.id}`;
+                    button.className = `swara-btn ${swara.isShuddha ? 'shuddha' : 'vikrit'}`;
+
+                    const dot = saptak.dotPosition
+                        ? `<span class="octave-dot ${saptak.dotPosition}" aria-hidden="true"></span>`
+                        : '';
+                    button.innerHTML = `${dot}
+                        <span class="swara-symbol">${swara.symbol}</span>
+                        <span class="swara-detail">${swara.detail}</span>`;
+                    button.setAttribute('aria-label', `${saptak.name} सप्तक, ${swara.name}`);
+                    button.addEventListener('click', () => handleGuessInput(saptak.id, swara.id));
+                    grid.appendChild(button);
+                });
+            });
+
+            updateGridState();
+            renderVisualizer();
+        }
+
+        function updateGridState() {
+            const allowedNotes = RAGAS[state.raga].notes;
+            SAPTAKS.forEach(saptak => {
+                SWARAS.forEach(swara => {
+                    const button = document.getElementById(`btn-${saptak.id}-${swara.id}`);
+                    if (button) button.disabled = state.isPlaying || !allowedNotes.includes(swara.id);
+                });
+            });
+        }
+
+        function renderVisualizer(isError = false) {
+            els.guessVisualizer.innerHTML = '';
+            for (let index = 0; index < state.modeLength; index++) {
+                const box = document.createElement('div');
+                box.className = 'guess-slot';
+
+                if (index < state.guessSequence.length) {
+                    const guess = state.guessSequence[index];
+                    const swara = SWARAS.find(item => item.id === guess.swaraId);
+                    const saptak = SAPTAKS.find(item => item.id === guess.saptakId);
+                    if (saptak.dotPosition) {
+                        const dot = document.createElement('span');
+                        dot.className = `octave-dot ${saptak.dotPosition}`;
+                        dot.setAttribute('aria-hidden', 'true');
+                        box.appendChild(dot);
+                    }
+                    const symbol = document.createElement('span');
+                    symbol.className = 'slot-symbol';
+                    symbol.innerText = swara.symbol;
+                    box.appendChild(symbol);
+                    const detail = document.createElement('span');
+                    detail.className = 'slot-detail';
+                    detail.innerText = swara.detail;
+                    box.appendChild(detail);
+                    box.classList.add(isError && index === state.guessSequence.length - 1 ? 'incorrect' : 'correct');
+                } else {
+                    box.classList.add('empty');
+                    box.innerText = '·';
+                }
+                els.guessVisualizer.appendChild(box);
+            }
+        }
+
+        function setFeedback(message, type) {
+            els.feedbackText.innerText = message;
+            els.feedbackText.className = `feedback${type ? ` ${type}` : ''}`;
+        }
+
+        function generatePrompt() {
+            initAudio();
+            state.guessSequence = [];
+            renderVisualizer();
+            setFeedback('ध्यान से सुनिए…', '');
+
+            const allowedNotes = RAGAS[state.raga].notes;
+            const allowedSaptaks = ['madhya'];
+            if (els.mandraCheck.checked) allowedSaptaks.push('mandra');
+            if (els.taarCheck.checked) allowedSaptaks.push('taar');
+
+            const validPool = [];
+            const saptakOrder = ['mandra', 'madhya', 'taar'];
+            saptakOrder.forEach(saptakId => {
+                if (allowedSaptaks.includes(saptakId)) {
+                    SWARAS.forEach(swara => {
+                        if (allowedNotes.includes(swara.id)) validPool.push({ saptakId, swaraId: swara.id });
+                    });
+                }
+            });
+
+            state.promptSequence = [];
+            let currentIndex = Math.floor(Math.random() * validPool.length);
+            for (let index = 0; index < state.modeLength; index++) {
+                if (index > 0) {
+                    const maxStep = 2;
+                    const minPossible = Math.max(0, currentIndex - maxStep);
+                    const maxPossible = Math.min(validPool.length - 1, currentIndex + maxStep);
+                    currentIndex = Math.floor(Math.random() * (maxPossible - minPossible + 1)) + minPossible;
+                }
+                if (validPool[currentIndex]) state.promptSequence.push(validPool[currentIndex]);
+            }
+
+            playSequence(state.promptSequence);
+            updateGridState();
+        }
+
+        function repeatPrompt() {
+            initAudio();
+            if (state.promptSequence.length === 0 || state.isPlaying) return;
+            setFeedback('स्वरक्रम दोहराया जा रहा है…', '');
+            playSequence(state.promptSequence);
+        }
+
+        function playSingleNotePreview(saptakId, swaraId) {
+            const swara = SWARAS.find(item => item.id === swaraId);
+            const saptak = SAPTAKS.find(item => item.id === saptakId);
+            playFluteNote(swara, saptak.mult, 0, 0.4);
+        }
+
+        function handleGuessInput(saptakId, swaraId) {
+            initAudio();
+            if (state.isPlaying || state.promptSequence.length === 0) return;
+            const currentGuessIndex = state.guessSequence.length;
+            if (currentGuessIndex >= state.modeLength) return;
+
+            playSingleNotePreview(saptakId, swaraId);
+            const expectedNote = state.promptSequence[currentGuessIndex];
+            const isCorrect = expectedNote.swaraId === swaraId && expectedNote.saptakId === saptakId;
+
+            if (isCorrect) {
+                state.guessSequence.push({ saptakId, swaraId });
+                renderVisualizer();
+
+                if (state.guessSequence.length === state.modeLength) {
+                    state.score++;
+                    state.total++;
+                    setFeedback('सही! बहुत अच्छा!', 'success');
+                    els.scoreVal.innerText = toDevanagariDigits(state.score);
+                    els.totalVal.innerText = toDevanagariDigits(state.total);
+                    state.promptSequence = [];
+                    els.repeatPromptBtn.disabled = true;
+                }
+            } else {
+                state.total++;
+                els.totalVal.innerText = toDevanagariDigits(state.total);
+                state.guessSequence.push({ saptakId, swaraId });
+                renderVisualizer(true);
+
+                const correctSequence = state.promptSequence.map(note => {
+                    const swara = SWARAS.find(item => item.id === note.swaraId);
+                    const saptak = SAPTAKS.find(item => item.id === note.saptakId);
+                    const octavePrefix = saptak.id === 'taar' ? 'तार ' : (saptak.id === 'mandra' ? 'मंद्र ' : '');
+                    return `${octavePrefix}${swara.name}`;
+                }).join(' — ');
+
+                setFeedback(`गलत। सही स्वरक्रम था: ${correctSequence}`, 'error');
+                state.promptSequence = [];
+                els.repeatPromptBtn.disabled = true;
+            }
+        }
+
+        /* नियंत्रण */
+        els.scaleSelect.addEventListener('change', event => {
+            baseFreq = SCALES[event.target.value].freq;
+        });
+
+        els.ragaSelect.addEventListener('change', event => {
+            state.raga = event.target.value;
+            state.promptSequence = [];
+            state.guessSequence = [];
+            els.repeatPromptBtn.disabled = true;
+            renderVisualizer();
+            updateGridState();
+            setFeedback('राग बदल गया है। नया स्वर सुनने के लिए «स्वर सुनें» दबाएँ।', '');
+        });
+
+        els.modeSelect.addEventListener('change', event => {
+            state.modeLength = Number.parseInt(event.target.value, 10);
+            state.promptSequence = [];
+            state.guessSequence = [];
+            els.repeatPromptBtn.disabled = true;
+            renderVisualizer();
+            setFeedback('अभ्यास का प्रकार बदल गया है। «स्वर सुनें» दबाएँ।', '');
+        });
+
+        els.mandraCheck.addEventListener('change', event => {
+            els.mandraGrid.classList.toggle('hidden', !event.target.checked);
+        });
+
+        els.taarCheck.addEventListener('change', event => {
+            els.taarGrid.classList.toggle('hidden', !event.target.checked);
+        });
+
+        els.playPromptBtn.addEventListener('click', generatePrompt);
+        els.repeatPromptBtn.addEventListener('click', repeatPrompt);
+        els.tanpuraToggleBtn.addEventListener('click', toggleTanpura);
+
+        els.resetBtn.addEventListener('click', () => {
+            state.score = 0;
+            state.total = 0;
+            els.scoreVal.innerText = '०';
+            els.totalVal.innerText = '०';
+            state.promptSequence = [];
+            state.guessSequence = [];
+            els.repeatPromptBtn.disabled = true;
+            renderVisualizer();
+            setFeedback('अंक रीसेट कर दिए गए हैं।', '');
+        });
+
+        els.fluteVolSlider.addEventListener('input', event => {
+            if (fluteMasterGain) fluteMasterGain.gain.value = event.target.value;
+        });
+
+        els.tanpuraVolSlider.addEventListener('input', event => {
+            if (tanpuraMasterGain) tanpuraMasterGain.gain.value = event.target.value;
+        });
+
+        window.addEventListener('DOMContentLoaded', setupUI);
+    </script>
+</body>
+</html>
