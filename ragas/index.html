@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raga Lab</title>
+    <meta name="description" content="Raga Lab: collected performances and ear training for Hindustani ragas.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&family=Noto+Sans+Devanagari:wght@400;500;600;700">
+    <link rel="stylesheet" href="css/ragas.css">
+</head>
+<body>
+    <main class="container">
+        <header class="page-header">
+            <button id="langToggle" class="lang-toggle" type="button">English</button>
+            <a class="back-link" href="../index.html"><span class="back-arrow" aria-hidden="true">←</span> <span data-i18n="backLink">पोर्टफोलियो पर वापस</span></a>
+            <h1 class="page-title" data-i18n="lab">रागा लैब</h1>
+            <p class="page-subtitle" data-i18n="labSub"></p>
+        </header>
+
+        <div class="app-layout">
+            <section class="panel trainer-card">
+                <div>
+                    <h2 class="section-title" data-i18n="universalTrainer"></h2>
+                    <p class="drill-desc" data-i18n="universalDesc"></p>
+                </div>
+                <a class="primary-button" href="trainer.html"><span class="button-icon" aria-hidden="true">▶</span><span data-i18n="openTrainer"></span></a>
+            </section>
+
+            <section class="panel">
+                <div class="toolbar">
+                    <input id="searchInput" class="search-input" type="search" autocomplete="off" aria-label="Search ragas">
+                    <button class="filter-chip active" type="button" data-filter="all" data-i18n="filterAll"></button>
+                    <button class="filter-chip" type="button" data-filter="videos" data-i18n="filterVideos"></button>
+                    <button class="filter-chip" type="button" data-filter="phrases" data-i18n="filterPhrases"></button>
+                </div>
+                <p class="result-count" id="resultCount"></p>
+                <div id="ragaGrid" class="raga-grid"></div>
+            </section>
+
+            <section class="panel">
+                <h2 class="section-title" data-i18n="aboutTitle"></h2>
+                <p class="about-text" data-i18n="aboutText"></p>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/raga-data.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/collection.js"></script>
+    <script src="js/raga-home.js"></script>
+</body>
+</html>
