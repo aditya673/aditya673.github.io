@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raga</title>
+    <meta name="description" content="A raga page: collected performances and raga-specific ear training.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&family=Noto+Sans+Devanagari:wght@400;500;600;700">
+    <link rel="stylesheet" href="css/ragas.css">
+    <script>window.LOCKED_RAGA = new URLSearchParams(location.search).get('r');</script>
+</head>
+<body class="raga-locked">
+    <main class="container">
+        <header class="page-header">
+            <button id="langToggle" class="lang-toggle" type="button">English</button>
+            <a class="back-link" href="index.html"><span class="back-arrow" aria-hidden="true">←</span> <span data-i18n="backLab">रागा लैब पर वापस</span></a>
+            <h1 class="page-title" id="ragaTitle"></h1>
+            <p class="page-subtitle" id="ragaSubtitle"></p>
+        </header>
+
+        <div class="app-layout">
+            <section class="panel" id="listenSection">
+                <h2 class="section-title" data-i18n="secListen">सुनिए</h2>
+                <div id="videoList" class="video-list"></div>
+                <div id="listenNotes" class="listen-notes"></div>
+            </section>
+
+            <h2 class="part-title" data-i18n="secTrain"></h2>
+
+            <section class="panel raga-info">
+                <h2 class="raga-info-title" id="ragaInfoTitle"></h2>
+                <div id="ragaChips" class="chips"></div>
+                <div id="ragaPhrases" class="phrases"></div>
+                <p id="ragaNote" class="raga-note"></p>
+            </section>
+
+            <section class="panel settings-grid">
+                <div class="field">
+                    <label class="field-label" for="scaleSelect" data-i18n="lblScale">आधार स्वर (सा)</label>
+                    <select id="scaleSelect"></select>
+                </div>
+                <div class="field field-raga">
+                    <label class="field-label" for="ragaSelect" data-i18n="lblRaga">राग</label>
+                    <select id="ragaSelect"></select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="tuningSelect" data-i18n="lblTuning">स्वरस्थान</label>
+                    <select id="tuningSelect">
+                        <option value="raga" data-i18n="tuningRaga">राग के अनुसार श्रुति</option>
+                        <option value="standard" data-i18n="tuningStd">सामान्य (शुद्ध अंतराल)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="modeSelect" data-i18n="lblMode">अभ्यास का प्रकार</label>
+                    <select id="modeSelect">
+                        <option value="1" data-i18n="mode1">एकल स्वर</option>
+                        <option value="2" data-i18n="mode2">दो स्वरों का क्रम</option>
+                        <option value="3" data-i18n="mode3">तीन स्वरों का क्रम</option>
+                        <option value="4" data-i18n="mode4">चार स्वरों का क्रम</option>
+                        <option value="5" data-i18n="mode5">पाँच स्वरों का क्रम</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="stepSelect" data-i18n="lblStep">स्वरों के बीच की दूरी</label>
+                    <select id="stepSelect">
+                        <option value="near" data-i18n="stepNear">निकट स्वर (सरल)</option>
+                        <option value="mid" data-i18n="stepMid">मध्यम</option>
+                        <option value="any" data-i18n="stepAny">कोई भी स्वर (कठिन)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label" for="tanpuraTuneSelect" data-i18n="lblTanpuraTune">तानपुरे का मिलान</label>
+                    <select id="tanpuraTuneSelect"></select>
+                </div>
+                <div class="field">
+                    <span class="field-label" data-i18n="lblOctave">सप्तक</span>
+                    <div class="checkbox-list">
+                        <label class="check-label"><input type="checkbox" id="mandraCheck"> <span data-i18n="mandra">मंद्र सप्तक</span></label>
+                        <label class="check-label"><input type="checkbox" id="taarCheck"> <span data-i18n="taar">तार सप्तक</span></label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel volume-grid">
+                <div class="volume-field">
+                    <label class="volume-heading" for="fluteVolSlider" data-i18n="volFlute">बाँसुरी की ध्वनि</label>
+                    <input type="range" id="fluteVolSlider" min="0" max="1" step="0.05" value="0.7">
+                </div>
+                <div class="volume-field">
+                    <label class="volume-heading" for="tanpuraVolSlider" data-i18n="volTanpura">तानपुरे की ध्वनि</label>
+                    <input type="range" id="tanpuraVolSlider" min="0" max="1" step="0.05" value="0.5">
+                </div>
+            </section>
+
+            <div class="game-layout">
+                <aside class="sidebar">
+                    <section class="panel tanpura-panel">
+                        <h2 class="panel-heading" data-i18n="tanpura">तानपुरा</h2>
+                        <button id="tanpuraToggleBtn" class="tanpura-button" type="button" aria-pressed="false">
+                            <span id="tanpuraStateText">बंद</span>
+                        </button>
+                        <p class="panel-note" data-i18n="tanpuraNote">चार तारों की तानपुरा ध्वनि</p>
+                    </section>
+
+                    <section class="panel score-panel">
+                        <h2 class="score-title" data-i18n="scoreTitle">आपकी शुद्धता</h2>
+                        <div class="score-line">
+                            <span id="scoreVal" class="correct-score">०</span>
+                            <span>/</span>
+                            <span id="totalVal" class="total-score">०</span>
+                        </div>
+                        <p class="score-caption" data-i18n="scoreCaption">सही उत्तर / कुल प्रयास</p>
+                        <p class="streak-line"><span data-i18n="streak">लगातार सही:</span> <span id="streakVal">०</span></p>
+                        <button id="resetScoreBtn" class="text-button" type="button" data-i18n="reset">अंक रीसेट करें</button>
+                    </section>
+                </aside>
+
+                <section class="panel game-panel">
+                    <div class="interaction-stage">
+                        <div class="action-row">
+                            <button id="playPromptBtn" class="primary-button" type="button">
+                                <span class="button-icon" aria-hidden="true">▶</span>
+                                <span data-i18n="btnPlay">स्वर सुनें</span>
+                            </button>
+                            <button id="repeatPromptBtn" class="secondary-button" type="button" disabled>
+                                <span class="button-icon" aria-hidden="true">↻</span>
+                                <span data-i18n="btnRepeat">पुनः सुनें</span>
+                            </button>
+                        </div>
+                        <div class="tools-row">
+                            <button id="playSaBtn" class="text-button" type="button" data-i18n="btnSa">सा सुनें</button>
+                            <button id="playRagaBtn" class="text-button" type="button" data-i18n="btnRaga">राग के स्वर सुनें</button>
+                            <button id="revealBtn" class="text-button" type="button" data-i18n="btnReveal" disabled>उत्तर दिखाएँ</button>
+                        </div>
+
+                        <div class="guess-area">
+                            <h2 class="guess-title" data-i18n="guessTitle">आपका अनुमान</h2>
+                            <div id="guessVisualizer" class="guess-visualizer"></div>
+                        </div>
+
+                        <div id="feedbackText" class="feedback" role="status" aria-live="polite"></div>
+                    </div>
+
+                    <div class="swara-grids">
+                        <div>
+                            <div id="taarLabel" class="grid-label" data-i18n="taar" hidden>तार सप्तक</div>
+                            <div id="taarGrid" class="swara-grid hidden"></div>
+                        </div>
+                        <div>
+                            <div id="madhyaLabel" class="grid-label" data-i18n="madhya" hidden>मध्य सप्तक</div>
+                            <div id="madhyaGrid" class="swara-grid"></div>
+                        </div>
+                        <div>
+                            <div id="mandraLabel" class="grid-label" data-i18n="mandra" hidden>मंद्र सप्तक</div>
+                            <div id="mandraGrid" class="swara-grid hidden"></div>
+                        </div>
+                    </div>
+                    <p class="panel-note" data-i18n="panelNote"></p>
+                </section>
+            </div>
+
+            <section class="panel drill-panel" id="oddSection">
+                <h2 class="section-title" data-i18n="drillOddTitle"></h2>
+                <p class="drill-desc" data-i18n="drillOddDesc"></p>
+                <div class="action-row">
+                    <button id="oddPlayBtn" class="primary-button" type="button"><span class="button-icon" aria-hidden="true">▶</span><span data-i18n="drillPlay"></span></button>
+                    <button id="oddReplayBtn" class="secondary-button" type="button" disabled><span class="button-icon" aria-hidden="true">↻</span><span data-i18n="drillReplay"></span></button>
+                </div>
+                <div id="oddButtons" class="odd-buttons"></div>
+                <div id="oddFeedback" class="feedback" role="status" aria-live="polite"></div>
+                <p class="drill-score"><span data-i18n="drillScore"></span> <span id="oddScore">0/0</span></p>
+            </section>
+
+            <section class="panel drill-panel" id="nextSection">
+                <h2 class="section-title" data-i18n="drillNextTitle"></h2>
+                <p class="drill-desc" id="nextDesc" data-i18n="drillNextDesc"></p>
+                <div id="nextControls">
+                    <div class="action-row">
+                        <button id="nextPlayBtn" class="primary-button" type="button"><span class="button-icon" aria-hidden="true">▶</span><span data-i18n="drillPlay"></span></button>
+                        <button id="nextReplayBtn" class="secondary-button" type="button" disabled><span class="button-icon" aria-hidden="true">↻</span><span data-i18n="drillReplay"></span></button>
+                    </div>
+                    <div id="nextOptions" class="next-options"></div>
+                    <div id="nextFeedback" class="feedback" role="status" aria-live="polite"></div>
+                    <p class="drill-score"><span data-i18n="drillScore"></span> <span id="nextScore">0/0</span></p>
+                </div>
+            </section>
+
+            <section class="panel link-row">
+                <a href="trainer.html?r=" id="trainerLink" data-i18n="universalTrainer"></a>
+            </section>
+            <nav class="raga-nav" id="ragaNav" aria-label="Ragas"></nav>
+
+            <details class="panel shruti-ref">
+                <summary data-i18n="refTitle">श्रुति-स्थान की तालिका</summary>
+                <div id="shrutiRef" class="ref-body"></div>
+            </details>
+        </div>
+    </main>
+
+    <script src="js/raga-data.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/collection.js"></script>
+    <script src="js/swara-app.js"></script>
+    <script src="js/raga-page.js"></script>
+</body>
+</html>
